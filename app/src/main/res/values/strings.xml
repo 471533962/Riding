@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">骑迹</string>
+    <string name="app_subtitle">身体与灵魂，总有一个在路上</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">设置</string>
+
+    <string name="share">分享</string>
+    <string name="more">更多</string>
+    <string name="feedback">反馈</string>
+    <string name="index">首页</string>
+    <string name="me">我</string>
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_camara" android:icon="@drawable/ic_home_grey_500_24dp"
+            android:title="@string/index" />
+        <item android:id="@+id/nav_gallery" android:icon="@drawable/ic_account_box_grey_500_24dp"
+            android:title="@string/me" />
+        <item android:id="@+id/nav_manage" android:icon="@drawable/ic_settings_grey_500_24dp"
+            android:title="@string/action_settings" />
+    </group>
+
+    <item android:title="@string/more">
+        <menu>
+            <!--<item android:id="@+id/nav_share" android:icon="@android:drawable/ic_menu_share"-->
+                <!--android:title="@string/share" />-->
+            <item android:id="@+id/nav_send"
+                android:icon="@drawable/ic_forum_grey_500_24dp"
+                android:title="@string/feedback" />
+        </menu>
+    </item>
+
+</menu>
