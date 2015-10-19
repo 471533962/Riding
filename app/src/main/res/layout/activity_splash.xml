@@ -8,7 +8,7 @@
     <TextView
         android:id="@+id/activity_launch_title"
         android:layout_centerHorizontal="true"
-        android:text="@string/app_name"
+        android:text="@string/application_name"
         android:textSize="@dimen/activity_launch_title"
         android:textStyle="bold"
         android:textColor="@color/white"

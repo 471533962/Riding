@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".PublishActivity">
+
+    <include layout="@layout/toolbar_head" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/et_usertel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minLines="7"
+                android:paddingTop="5dp"
+                android:gravity="top|left"
+                android:hint="这一刻的想法..."
+                android:background="@color/white"
+                android:paddingLeft="20dp"
+                android:textColorHint="#DDDDDD"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <GridView
+                android:id="@+id/photo_select"
+                android:numColumns="4"
+                android:layout_marginTop="10dp"
+                android:verticalSpacing="5dp"
+                android:horizontalSpacing="5dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

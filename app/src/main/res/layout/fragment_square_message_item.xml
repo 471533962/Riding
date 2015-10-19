@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_margin="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/message_publisher_photo"
+            android:scaleType="centerCrop"
+            android:layout_width="70dp"
+            android:layout_height="70dp" />
+
+        <LinearLayout
+            android:layout_toRightOf="@id/message_publisher_photo"
+            android:layout_marginLeft="10dp"
+            android:paddingTop="5dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/message_publisher_name"
+                android:textSize="20sp"
+                android:textColor="#42A5F5"
+                android:text="吴斌"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/message_content"
+                android:layout_marginTop="5dp"
+                android:textSize="15sp"
+                android:maxLines="4"
+                android:ellipsize="end"
+                android:textColor="@color/black"
+                android:text="航速达科技是的哈会计师的空间安徽省肯德基阿克苏较好的卡机和SD卡和SD卡较好的"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <GridView
+                android:id="@+id/community_image_grid_view"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:numColumns="3"
+                android:verticalSpacing="5dp"
+                android:layout_marginTop="5dp"
+                android:horizontalSpacing="10dp" />
+
+            <RelativeLayout
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/publish_time"
+                    android:textColor="@color/grey"
+                    android:textSize="13sp"
+                    android:text="2015-08-09"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
