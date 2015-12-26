@@ -8,7 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.signature.MediaStoreSignature;
+import com.bumptech.glide.signature.StringSignature;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -82,10 +86,11 @@ public class FolderAdapter extends BaseAdapter {
                 holder.size.setText(getTotalImageSize()+"张");
                 if(mFolders.size()>0){
                     Folder f = mFolders.get(0);
-                    Picasso.with(mContext)
+                    Glide.with(mContext.getApplicationContext())
                             .load(new File(f.cover.path))
+                            .signature(new StringSignature(f.cover.path))
+                            .diskCacheStrategy(DiskCacheStrategy.RESULT)
                             .error(R.drawable.default_error)
-                            .resize(mImageSize, mImageSize)
                             .centerCrop()
                             .into(holder.cover);
                 }
@@ -139,10 +144,11 @@ public class FolderAdapter extends BaseAdapter {
             name.setText(data.name);
             size.setText(data.images.size()+"张");
             // 显示图片
-            Picasso.with(mContext)
+            Glide.with(mContext.getApplicationContext())
                     .load(new File(data.cover.path))
+                    .signature(new StringSignature(data.cover.path))
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
                     .placeholder(R.drawable.default_error)
-                    .resize(mImageSize, mImageSize)
                     .centerCrop()
                     .into(cover);
             // TODO 选择标识

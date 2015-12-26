@@ -19,14 +19,20 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
-import android.widget.Toast;
+import android.view.inputmethod.InputMethodManager;
 
 import com.bingo.riding.R;
 
-import org.apache.http.message.BasicNameValuePair;
-
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -57,14 +63,10 @@ public class Utils {
      * @param cls
      * @param name
      */
-    public static void startActivity(Activity activity, Class<?> cls,
-                                      BasicNameValuePair... name) {
+    public static void startActivity(Activity activity, Class<?> cls) {
         Intent intent = new Intent();
         intent.setClass(activity, cls);
-        if (name != null)
-            for (int i = 0; i < name.length; i++) {
-                intent.putExtra(name[i].getName(), name[i].getValue());
-            }
+
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.push_left_in,
                 R.anim.push_left_out);
@@ -78,6 +80,15 @@ public class Utils {
 
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+    }
+
+    /**
+     * 关闭软键盘
+     */
+    public static void closeSoftInput(Context context, View view){
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(
+                view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     /**
@@ -321,4 +332,69 @@ public class Utils {
         }
         return (int) (sDensity * nDip);
     }
+
+
+
+    public static String getThumbUploadPath(Context mContext, String oldPath,int bitmapMaxWidth) throws FileNotFoundException,IOException {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(oldPath, options);
+        int height = options.outHeight;
+        int width = options.outWidth;
+        int reqHeight = 0;
+        int reqWidth = bitmapMaxWidth;
+        reqHeight = (reqWidth * height)/width;
+        // 在内存中创建bitmap对象，这个对象按照缩放大小创建的
+        options.inSampleSize = calculateInSampleSize(options, bitmapMaxWidth, reqHeight);
+//                System.out.println("calculateInSampleSize(options, 480, 800);==="
+//                                + calculateInSampleSize(options, 480, 800));
+        options.inJustDecodeBounds = false;
+        Bitmap bitmap = BitmapFactory.decodeFile(oldPath, options);
+        //Log.e("asdasdas", "reqWidth->"+reqWidth+"---reqHeight->"+reqHeight);
+        Bitmap bbb = compressImage(Bitmap.createScaledBitmap(bitmap, bitmapMaxWidth, reqHeight, false));
+
+        File imageCacheDir = new File(mContext.getCacheDir().getAbsolutePath() + File.separator + "images");
+        if (imageCacheDir.exists() == false){
+            imageCacheDir.mkdirs();
+        }
+        File file = new File(imageCacheDir.getAbsolutePath(), System.currentTimeMillis() + ".jpg");
+        OutputStream os = new BufferedOutputStream(new FileOutputStream(file));
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+        bbb.recycle();
+        os.close();
+        return file.getAbsolutePath();
+    }
+
+    public static int calculateInSampleSize(BitmapFactory.Options options,
+                                      int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+            if (width > height) {
+                inSampleSize = Math.round((float) height / (float) reqHeight);
+            } else {
+                inSampleSize = Math.round((float) width / (float) reqWidth);
+            }
+        }
+        return inSampleSize;
+    }
+
+    public static Bitmap compressImage(Bitmap image) {
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 80, baos);// 质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+        int options = 100;
+        while (baos.toByteArray().length / 1024 > 100) { // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
+            options -= 10;// 每次都减少10
+            baos.reset();// 重置baos即清空baos
+            image.compress(Bitmap.CompressFormat.JPEG, options, baos);// 这里压缩options%，把压缩后的数据存放到baos中
+        }
+        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());// 把压缩后的数据baos存放到ByteArrayInputStream中
+        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);// 把ByteArrayInputStream数据生成图片
+        return bitmap;
+    }
+
 }

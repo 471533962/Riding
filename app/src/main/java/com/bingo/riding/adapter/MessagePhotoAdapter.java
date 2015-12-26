@@ -3,14 +3,14 @@ package com.bingo.riding.adapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.bingo.riding.PublishActivity;
-import com.bingo.riding.R;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.signature.StringSignature;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -59,9 +59,19 @@ public class MessagePhotoAdapter extends BaseAdapter {
         }
         String imagePath = messagePhotoList.get(position);
         if (imagePath.equals(PublishActivity.ADDNEWIMAGE) == false){
-            Picasso.with(mContext).load(new File(imagePath)).resize(200, 200).centerCrop().into(imageView);
+            Glide.with(mContext.getApplicationContext())
+                    .load(new File(imagePath))
+                    .signature(new StringSignature(imagePath))
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    .centerCrop()
+                    .into(imageView);
         }else{
-            Picasso.with(mContext).load(Integer.parseInt(imagePath)).resize(200, 200).centerCrop().into(imageView);
+            Glide.with(mContext.getApplicationContext())
+                    .load(Integer.parseInt(imagePath))
+                    .signature(new StringSignature(imagePath))
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    .centerCrop()
+                    .into(imageView);
         }
 
         return imageView;

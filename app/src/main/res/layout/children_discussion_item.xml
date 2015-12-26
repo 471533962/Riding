@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="bingo"
+            android:textSize="15sp"
+            android:id="@+id/poster_name"
+            android:textColor="#42A5F5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="回复"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="codingbingo"
+            android:textSize="15sp"
+            android:id="@+id/replier_name"
+            android:textColor="#42A5F5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <TextView
+        android:text="中华任命共和国阿斯利康的就阿拉山口建档立卡见识到了可骄傲是考虑"
+        android:id="@+id/reply_content"
+        android:background="@drawable/discussion_content_selector"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        android:gravity="left"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

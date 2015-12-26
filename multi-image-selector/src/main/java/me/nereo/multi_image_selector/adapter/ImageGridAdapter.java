@@ -1,7 +1,6 @@
 package me.nereo.multi_image_selector.adapter;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.signature.StringSignature;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -238,11 +238,11 @@ public class ImageGridAdapter extends BaseAdapter {
 
             if(mItemSize > 0) {
                 // 显示图片
-                Picasso.with(mContext)
+                Glide.with(mContext.getApplicationContext())
                         .load(imageFile)
+                        .signature(new StringSignature(imageFile.getAbsolutePath()))
+                        .diskCacheStrategy(DiskCacheStrategy.RESULT)
                         .placeholder(R.drawable.default_error)
-                                //.error(R.drawable.default_error)
-                        .resize(mItemSize, mItemSize)
                         .centerCrop()
                         .into(image);
             }

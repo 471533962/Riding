@@ -7,6 +7,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
+
+import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.im.v2.AVIMClient;
+import com.avos.avoscloud.im.v2.AVIMException;
+import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
+import com.bingo.riding.utils.AVImClientManager;
 
 /**
  * Created by bingo on 15/10/8.
@@ -29,6 +36,14 @@ public class SplashActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_splash);
 
+        if (AVUser.getCurrentUser() == null) {
+            intent = new Intent(SplashActivity.this, CustomActivity.class);
+            startActivity(intent);
+            finish();
+
+            return;
+        }
+
         intent = new Intent(SplashActivity.this, MainActivity.class);
 
         new BackgroundTask().execute();
@@ -44,7 +59,7 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         protected Object doInBackground(Object[] params) {
             try {
-                Thread.sleep(3 * 1000);
+                AVUser.getCurrentUser().fetch();
             }catch (Exception e){
                 e.printStackTrace();
             }

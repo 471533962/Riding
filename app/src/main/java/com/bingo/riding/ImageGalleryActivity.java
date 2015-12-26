@@ -53,9 +53,9 @@ public class ImageGalleryActivity extends AppCompatActivity {
         }
 
         if (isFile == true){
-            pagerAdapter = new FilePagerAdapter(this, photosList);
+            pagerAdapter = new FilePagerAdapter(getApplicationContext(), photosList);
         }else{
-            pagerAdapter = new UrlPagerAdapter(this, photosList);
+            pagerAdapter = new UrlPagerAdapter(getApplicationContext(), photosList);
         }
 
         mViewPager.setCurrentItem(startPosition);
@@ -80,11 +80,7 @@ public class ImageGalleryActivity extends AppCompatActivity {
                 int position = mViewPager.getCurrentItem();
                 photoDeleteList.add(photosList.get(position));
                 photosList.remove(position);
-                if (photosList.size() >= position){
-                    mViewPager.setCurrentItem(position);
-                }else{
-                    mViewPager.setCurrentItem(0);
-                }
+
                 if (photosList.size() == 0){
                     Intent intent = new Intent();
                     //把返回数据存入Intent
@@ -94,6 +90,14 @@ public class ImageGalleryActivity extends AppCompatActivity {
                     //关闭Activity
                     finish();
                 }
+
+
+                if (photosList.size() >= position){
+                    mViewPager.setCurrentItem(position);
+                }else{
+                    mViewPager.setCurrentItem(0);
+                }
+
                 pagerAdapter.notifyDataSetChanged();
                 break;
             case android.R.id.home:

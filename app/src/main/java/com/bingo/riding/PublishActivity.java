@@ -1,8 +1,10 @@
 package com.bingo.riding;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -10,10 +12,19 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.GridView;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.SaveCallback;
 import com.bingo.riding.adapter.MessagePhotoAdapter;
+import com.bingo.riding.service.PublishMessageService;
+import com.bingo.riding.utils.DataTools;
+import com.bingo.riding.utils.Utils;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -32,14 +43,13 @@ public class PublishActivity extends AppCompatActivity {
     private Toolbar toolbar;
 
     private GridView photoGridView;
+    private EditText publish_message_content;
     private MessagePhotoAdapter messagePhotoAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish);
-
-
 
         //Transparent Status Bar
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -61,6 +71,7 @@ public class PublishActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         photoGridView = (GridView) findViewById(R.id.photo_select);
+        publish_message_content = (EditText) findViewById(R.id.publish_message_content);
 
         initData();
     }
@@ -143,7 +154,21 @@ public class PublishActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.activity_publish_publish:
-                //发布消息
+                //关闭软键盘
+                Utils.closeSoftInput(this, publish_message_content);
+
+                final String content = publish_message_content.getText().toString();
+                if (content.length() == 0){
+                    Snackbar.make(toolbar.getRootView(), "请填写要发表的内容", Snackbar.LENGTH_LONG).show();
+                    break;
+                }
+                photoList.remove(ADDNEWIMAGE);
+                Intent intent = new Intent(PublishActivity.this, PublishMessageService.class);
+                intent.putStringArrayListExtra("photoList", photoList);
+                intent.putExtra("content", content);
+
+                PublishActivity.this.startService(intent);
+                Utils.finish(this);
             break;
         }
         return super.onOptionsItemSelected(item);

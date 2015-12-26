@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/message_publisher_photo"
+            android:scaleType="centerCrop"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+        <TextView
+            android:text="大宝"
+            android:textSize="17sp"
+            android:id="@+id/message_publisher_name"
+            android:layout_toRightOf="@id/message_publisher_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/message_publisher_time"
+            android:text="5分钟之前"
+            android:textSize="14sp"
+            android:textColor="@color/grey"
+            android:layout_alignBottom="@id/message_publisher_photo"
+            android:layout_toRightOf="@id/message_publisher_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/message_publisher_content"
+        android:background="@drawable/discussion_content_selector"
+        android:text="等哈见是的哈接收到就看哈看寄售点卡几乎是肯德基"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="15dp"
+        android:textColor="@color/black"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.linearlistview.LinearListView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/list"
+        android:background="#e2e1e1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="50dp"
+        android:dividerPadding="2dp"
+        app:dividerThickness="2dp" />
+
+</LinearLayout>

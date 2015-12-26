@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/c_light_grey"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:background="@drawable/linear_bg_selector"
+            android:padding="7dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/userPhoto"
+                android:scaleType="centerCrop"
+                android:src="@drawable/default_photo"
+                android:layout_marginRight="20dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"/>
+
+            <TextView
+                android:text="吴斌"
+                android:id="@+id/userName"
+                android:layout_toRightOf="@id/userPhoto"
+                android:layout_centerVertical="true"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="邮箱:1215773109@qq.com"
+                android:id="@+id/userEmail"
+                android:singleLine="true"
+                android:layout_toRightOf="@id/userPhoto"
+                android:layout_alignParentBottom="true"
+                android:textSize="15sp"
+                android:textColor="@color/grey"
+                android:layout_marginBottom="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/personal_info"
+            android:clickable="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/linear_bg_selector"
+            android:padding="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:drawableLeft="@drawable/ic_assignment_ind_cyan_800_24dp"
+                android:gravity="center_vertical"
+                android:drawablePadding="10dp"
+                android:text="个人信息"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+        <View
+            android:background="@color/grey"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <RelativeLayout
+            android:id="@+id/my_message"
+            android:clickable="true"
+            android:background="@drawable/linear_bg_selector"
+            android:padding="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:drawableLeft="@drawable/ic_speaker_notes_orange_500_24dp"
+                android:gravity="center_vertical"
+                android:drawablePadding="10dp"
+                android:text="我的消息"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/riding_data"
+            android:clickable="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/linear_bg_selector"
+            android:padding="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:drawableLeft="@drawable/ic_assignment_light_blue_500_24dp"
+                android:gravity="center_vertical"
+                android:drawablePadding="10dp"
+                android:text="骑行数据"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/setting"
+            android:clickable="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/linear_bg_selector"
+            android:padding="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:drawableLeft="@drawable/ic_settings_blue_500_24dp"
+                android:gravity="center_vertical"
+                android:drawablePadding="10dp"
+                android:text="设置"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</ScrollView>

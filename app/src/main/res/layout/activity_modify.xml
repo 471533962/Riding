@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.bingo.riding.ModifyActivity">
+
+    <EditText
+        android:id="@+id/modifyInfo"
+        android:layout_marginTop="20dp"
+        android:paddingRight="20dp"
+        android:singleLine="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:text="11"
+        android:id="@+id/numberLimit"
+        android:textSize="17sp"
+        android:textColor="@color/grey"
+        android:layout_alignParentRight="true"
+        android:layout_alignBaseline="@id/modifyInfo"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/hintTextView"
+        android:text="好名字可以让你的朋友更容易记住你。"
+        android:textColor="@color/grey"
+        android:layout_marginLeft="10dp"
+        android:textSize="15sp"
+        android:layout_below="@id/modifyInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

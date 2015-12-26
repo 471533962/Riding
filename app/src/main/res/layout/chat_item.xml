@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <ImageView
+        android:id="@+id/chat_item_me_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:src="@drawable/test_user_pic" />
+
+    <TextView
+        android:id="@+id/chat_item_me_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/chat_item_me_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/chat_from_normal"
+        android:gravity="center"
+        android:text="潘潘我们几点出来？"
+        android:textColor="@color/black"/>
+
+    <ImageView
+        android:id="@+id/chat_item_user_pic"
+        android:layout_marginRight="10dp"
+        android:visibility="gone"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:src="@drawable/test_user_pic"/>
+
+    <TextView
+        android:id="@+id/chat_item_user_content"
+        android:layout_toLeftOf="@+id/chat_item_user_pic"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/chat_me_normal"
+        android:gravity="center"
+        android:text="潘潘我们几点出来？"
+        android:textColor="@color/black" />
+
+</RelativeLayout>

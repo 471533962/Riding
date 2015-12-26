@@ -1,20 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bingo.riding" >
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.bingo.riding">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
+        android:name=".BaseApplication"
         android:allowBackup="true"
         android:icon="@drawable/riding_launcher"
         android:label="@string/application_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        tools:replace="icon, label">
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:launchMode="singleInstance"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CustomActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".RegisterActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,19 +38,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CustomActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
-        <activity
-            android:name=".RegisterActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".SplashActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
-        <activity
             android:name=".SettingsActivity"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.bingo.riding.MainActivity" />
@@ -45,10 +50,37 @@
         <activity
             android:name=".PublishActivity"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
-        <activity android:name=".ImageGalleryActivity" >
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ImageGalleryActivity" />
+
+        <service
+            android:name=".service.PublishMessageService"
+            android:enabled="true" />
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="452d528b73a6025f5848ffc29af41e8c" />
+
+        <activity
+            android:name=".PersonalInfoActivity"
+            android:label="个人信息"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".ModifyActivity"
+            android:parentActivityName=".PersonalInfoActivity" />
+        <activity android:name=".MessageMangerActivity" />
+        <activity
+            android:name=".MessageDetailActivity"
+            android:label="@string/title_activity_message_detail"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ChatActivity"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".PersonalIndexActivity"></activity>
     </application>
 
 </manifest>

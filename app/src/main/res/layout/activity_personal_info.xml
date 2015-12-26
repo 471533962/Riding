@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/c_light_grey"
+    tools:context="com.bingo.riding.PersonalInfoActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/personalImage"
+            android:clickable="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/linear_bg_selector"
+            android:padding="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:drawablePadding="10dp"
+                android:layout_centerVertical="true"
+                android:text="头像"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/personalImage_imageView"
+                android:src="@drawable/default_photo"
+                android:layout_alignParentRight="true"
+                android:layout_width="80dp"
+                android:layout_height="80dp" />
+
+        </RelativeLayout>
+
+        <View
+            android:background="@color/grey"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <RelativeLayout
+            android:id="@+id/personalNikeName"
+            android:clickable="true"
+            android:background="@drawable/linear_bg_selector"
+            android:padding="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:drawablePadding="10dp"
+                android:layout_centerVertical="true"
+                android:text="昵称"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/personalNikeName_textView"
+                android:text="革奴"
+                android:layout_marginRight="20dp"
+                android:singleLine="true"
+                android:textSize="16sp"
+                android:textColor="@color/grey"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+        <View
+            android:background="@color/grey"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <RelativeLayout
+            android:id="@+id/personalEmail"
+            android:clickable="true"
+            android:background="@drawable/linear_bg_selector"
+            android:padding="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:drawablePadding="10dp"
+                android:layout_centerVertical="true"
+                android:text="邮箱"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/personalEmail_textView"
+                android:text="1215773109@qq.com"
+                android:layout_marginRight="20dp"
+                android:singleLine="true"
+                android:textSize="16sp"
+                android:textColor="@color/grey"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/personalSex"
+            android:clickable="true"
+            android:background="@drawable/linear_bg_selector"
+            android:padding="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:drawablePadding="10dp"
+                android:layout_centerVertical="true"
+                android:text="性别"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/personalSex_textView"
+                android:text="男"
+                android:layout_marginRight="20dp"
+                android:singleLine="true"
+                android:textSize="16sp"
+                android:textColor="@color/grey"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+        <View
+            android:background="@color/grey"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <RelativeLayout
+            android:id="@+id/personalMessage"
+            android:clickable="true"
+            android:background="@drawable/linear_bg_selector"
+            android:padding="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:drawablePadding="10dp"
+                android:layout_centerVertical="true"
+                android:text="个性签名"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/personalMessage_textView"
+                android:text="我们划船不用浆，去哪都靠浪。"
+                android:layout_marginRight="10dp"
+                android:singleLine="true"
+                android:textSize="16sp"
+                android:textColor="@color/grey"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</ScrollView>

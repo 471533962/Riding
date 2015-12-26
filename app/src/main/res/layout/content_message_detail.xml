@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="5dp"
+    android:background="@color/white"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    app:layout_scrollFlags="scroll"
+    tools:context="com.bingo.riding.MessageDetailActivity"
+    tools:showIn="@layout/activity_message_detail">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/mainContent"
+            android:orientation="vertical"
+            android:padding="5dp"
+            android:paddingLeft="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/message_photo"
+                    android:src="@drawable/default_photo"
+                    android:scaleType="centerCrop"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp" />
+
+                <TextView
+                    android:id="@+id/message_publisher_name"
+                    android:textSize="18sp"
+                    android:textColor="#42A5F5"
+                    android:text="吴斌"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/message_photo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/publish_time"
+                    android:textColor="@color/grey"
+                    android:textSize="13sp"
+                    android:text="@string/_2015_08_09"
+                    android:layout_toRightOf="@id/message_photo"
+                    android:layout_alignBottom="@id/message_photo"
+                    android:singleLine="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/message_content"
+                android:text="哈市的很少见的徕卡是捡来的对啦抗衰老的卡罗斯柯达啦阿桑来打卡上看到了"
+                android:textColor="@color/black"
+                android:layout_marginTop="10dp"
+                android:textSize="15sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.bingo.riding.ui.SquarePhotosGridView
+                android:id="@+id/community_image_grid_view"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:numColumns="3"
+                android:verticalSpacing="5dp"
+                android:layout_marginTop="5dp"
+                android:horizontalSpacing="5dp" />
+
+            <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_alignParentLeft="true"
+                    android:drawableLeft="@drawable/ic_visibility_grey_500_24dp"
+                    android:text="浏览74次"
+                    android:textSize="13sp"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <com.linearlistview.LinearListView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/discussList"
+            android:layout_below="@id/mainContent"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:dividerPadding="2dp"
+            app:dividerThickness="2dp" />
+
+
+        <RelativeLayout
+            android:background="@color/c_light_grey"
+            android:paddingTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/sendBtn"
+                android:text="发送"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/commentEditText"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="10dp"
+                android:layout_toLeftOf="@id/sendBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+</android.support.v4.widget.NestedScrollView>
