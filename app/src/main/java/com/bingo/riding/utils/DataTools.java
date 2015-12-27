@@ -2,13 +2,18 @@ package com.bingo.riding.utils;
 
 import android.content.Context;
 
+import com.alibaba.fastjson.JSON;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.im.v2.AVIMMessage;
+import com.avos.avoscloud.im.v2.AVIMTypedMessage;
+import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.bingo.riding.PublishActivity;
 import com.bingo.riding.bean.Discussion;
 import com.bingo.riding.bean.Message;
+import com.bingo.riding.dao.ChatMessage;
 
 import java.io.File;
 import java.io.IOException;
@@ -79,6 +84,14 @@ public class DataTools {
         discussion.setDiscussionObject(avObject);
 
         return discussion;
+    }
+
+    public static ChatMessage getChatMessageFromAVIMTypedMessage(AVIMTypedMessage avimTextMessage, boolean isRead){
+        ChatMessage chatMessage = new ChatMessage();
+        chatMessage.setContent(JSON.parseObject(avimTextMessage.getContent()).getString("_lctext"));
+        chatMessage.setIsSendByUser(avimTextMessage.getMessageIOType().getIOType() == AVIMMessage.AVIMMessageIOType.AVIMMessageIOTypeIn.getIOType());
+
+        return chatMessage;
     }
 
     public static String timeLogic(Date date) {

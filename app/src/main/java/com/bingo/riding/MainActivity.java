@@ -21,7 +21,9 @@ import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMException;
 import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
+import com.bingo.riding.fragment.FriendsFragment;
 import com.bingo.riding.fragment.MeFragment;
+import com.bingo.riding.fragment.MessageFragment;
 import com.bingo.riding.fragment.RidingFragment;
 import com.bingo.riding.fragment.SquareFragment;
 import com.bingo.riding.utils.AVImClientManager;
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity
     private SquareFragment squareFragment;
     private MeFragment meFragment;
     private RidingFragment ridingFragment;
+    private FriendsFragment friendsFragment;
+    private MessageFragment messageFragment;
     private Fragment currentFragment;
 
 
@@ -116,7 +120,19 @@ public class MainActivity extends AppCompatActivity
                     .commit();
             currentFragment = ridingFragment;
         } else if (id == R.id.nav_friends) {
-
+            fragmentManager
+                    .beginTransaction()
+                    .hide(currentFragment)
+                    .show(friendsFragment)
+                    .commit();
+            currentFragment = friendsFragment;
+        } else if (id == R.id.nav_message) {
+            fragmentManager
+                    .beginTransaction()
+                    .hide(currentFragment)
+                    .show(messageFragment)
+                    .commit();
+            currentFragment = messageFragment;
         } else if (id == R.id.nav_feedback) {
 
         }
@@ -166,15 +182,21 @@ public class MainActivity extends AppCompatActivity
         squareFragment = new SquareFragment();
         ridingFragment = new RidingFragment();
         meFragment = new MeFragment();
+        friendsFragment = new FriendsFragment();
+        messageFragment = new MessageFragment();
 
         fragmentManager = getSupportFragmentManager();
         fragmentManager
                 .beginTransaction()
                 .add(R.id.activity_main_framelayout, squareFragment, "squareFragment")
-                .add(R.id.activity_main_framelayout, ridingFragment, "squareFragment")
+                .add(R.id.activity_main_framelayout, ridingFragment, "ridingFragment")
                 .add(R.id.activity_main_framelayout, meFragment, "squareFragment")
+                .add(R.id.activity_main_framelayout, friendsFragment, "friendsFragment")
+                .add(R.id.activity_main_framelayout, messageFragment, "messageFragment")
                 .hide(meFragment)
                 .hide(ridingFragment)
+                .hide(friendsFragment)
+                .hide(messageFragment)
                 .show(squareFragment)
                 .commit();
 

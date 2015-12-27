@@ -7,10 +7,11 @@
         android:id="@+id/chat_item_me_pic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:paddingBottom="3dp"
+        android:paddingTop="3dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/test_user_pic" />
 
     <TextView
@@ -20,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/chat_from_normal"
-        android:gravity="center"
+        android:gravity="left|center_vertical"
         android:text="潘潘我们几点出来？"
         android:textColor="@color/black"/>
 
@@ -44,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/chat_me_normal"
-        android:gravity="center"
+        android:gravity="left|center_vertical"
         android:text="潘潘我们几点出来？"
         android:textColor="@color/black" />
 

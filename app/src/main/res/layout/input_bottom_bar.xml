@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/groupchat_bottom"
+    android:layout_alignParentBottom="true"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:gravity="center_vertical"
+    android:background="#F2F2F2">
+
+    <RelativeLayout
+        android:id="@+id/groupchat_type_words"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical">
+
+        <ImageButton
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/groupchat_voice"
+            android:background="@drawable/groupchat_voice"/>
+
+        <FrameLayout
+            android:id="@+id/groupchat_frame"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp">
+
+            <ImageButton
+                android:visibility="invisible"
+                android:id="@+id/groupchat_more"
+                android:background="@drawable/groupchat_add"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <FrameLayout
+                android:id="@+id/groupchat_sendBtn"
+                android:layout_gravity="center_vertical"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content">
+
+                <ImageView
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/send_btn"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="发送"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"/>
+
+            </FrameLayout>
+
+        </FrameLayout>
+
+        <EditText
+            android:id="@+id/groupchat_input"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="5dp"
+            android:paddingBottom="5dp"
+            android:layout_toLeftOf="@id/groupchat_frame"
+            android:layout_toRightOf="@id/groupchat_voice"
+            android:background="@drawable/inputbox"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/groupchat_type_sound"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/groupchat_keyboard"
+            android:background="@drawable/groupchat_keyboard"/>
+
+        <ImageButton
+            android:id="@+id/groupchat_voice_add"
+            android:background="@drawable/groupchat_add"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <FrameLayout
+            android:id="@+id/groupchat_soundbtn"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_toLeftOf="@id/groupchat_voice_add"
+            android:layout_toRightOf="@id/groupchat_keyboard"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:background="@drawable/groupchat_sound_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:id="@+id/groupchat_soundbtn_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="按住说话"
+                android:gravity="center"
+                android:textColor="#8E8E8E"/>
+
+        </FrameLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>

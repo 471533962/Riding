@@ -3,10 +3,13 @@ package com.bingo.riding;
 import android.app.Application;
 
 import com.avos.avoscloud.AVOSCloud;
+import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.im.v2.AVIMClient;
+import com.avos.avoscloud.im.v2.AVIMException;
 import com.avos.avoscloud.im.v2.AVIMMessage;
 import com.avos.avoscloud.im.v2.AVIMMessageManager;
 import com.avos.avoscloud.im.v2.AVIMTypedMessage;
+import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 import com.bingo.riding.utils.AVImClientManager;
 import com.bingo.riding.utils.MessageHandler;
 
@@ -21,12 +24,9 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
 //        AVOSCloud.useAVCloudUS();
         AVOSCloud.initialize(this, APP_ID, APP_KEY);
-
 //        .initialize(getApplicationContext());
-
         AVIMMessageManager.registerMessageHandler(AVIMTypedMessage.class, new MessageHandler(this));
     }
 }

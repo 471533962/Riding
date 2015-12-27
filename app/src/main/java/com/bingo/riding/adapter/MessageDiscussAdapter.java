@@ -1,6 +1,7 @@
 package com.bingo.riding.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 
 import com.amap.api.maps.model.Text;
 import com.avos.avoscloud.AVFile;
+import com.avos.avoscloud.AVUser;
+import com.bingo.riding.PersonalIndexActivity;
 import com.bingo.riding.R;
 import com.bingo.riding.bean.Discussion;
 import com.bingo.riding.interfaces.OnDiscussionContentClickListener;
@@ -142,7 +145,7 @@ public class MessageDiscussAdapter extends BaseAdapter {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            Discussion discuss = (Discussion) getItem(position);
+            final Discussion discuss = (Discussion) getItem(position);
 
             ChildViewHolder childViewHolder;
             if (convertView == null){
@@ -166,6 +169,28 @@ public class MessageDiscussAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     onDiscussionContentClickListener.discussionClickListener(discussion);
+                }
+            });
+            childViewHolder.poster_name.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (AVUser.getCurrentUser().getObjectId().equals(discuss.getPoster().getObjectId())){
+                        return;
+                    }
+                    Intent intent = new Intent(mContext, PersonalIndexActivity.class);
+                    intent.putExtra("user", discuss.getPoster());
+                    mContext.startActivity(intent);
+                }
+            });
+            childViewHolder.replier_name.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (AVUser.getCurrentUser().getObjectId().equals(discuss.getReplier().getObjectId())){
+                        return;
+                    }
+                    Intent intent = new Intent(mContext, PersonalIndexActivity.class);
+                    intent.putExtra("user", discuss.getReplier());
+                    mContext.startActivity(intent);
                 }
             });
 

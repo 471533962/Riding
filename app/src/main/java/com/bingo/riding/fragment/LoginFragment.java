@@ -13,9 +13,13 @@ import android.widget.Toast;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.LogInCallback;
+import com.avos.avoscloud.im.v2.AVIMClient;
+import com.avos.avoscloud.im.v2.AVIMException;
+import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 import com.bingo.riding.CustomActivity;
 import com.bingo.riding.MainActivity;
 import com.bingo.riding.R;
+import com.bingo.riding.utils.AVImClientManager;
 import com.bingo.riding.utils.Utils;
 
 /**
@@ -68,13 +72,25 @@ public class LoginFragment extends Fragment {
                     public void done(AVUser avUser, AVException e) {
                         ((CustomActivity)getActivity()).dismissLoadingDialog();
                         if (e == null){
-                            Utils.startActivity(getActivity(), MainActivity.class);
-                            Utils.finish(getActivity());
+                            AVImClientManager.getInstance().open(AVUser.getCurrentUser().getObjectId(), new AVIMClientCallback() {
+                                @Override
+                                public void done(AVIMClient avimClient, AVIMException e) {
+                                    if (e != null){
+                                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        e.printStackTrace();
+                                    }
+                                    Utils.startActivity(getActivity(), MainActivity.class);
+                                    Utils.finish(getActivity());
+                                }
+                            });
+
                         } else{
                             Toast.makeText(getActivity(), "登录失败，请检查后重试。", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
+
+
             }
         });
     }

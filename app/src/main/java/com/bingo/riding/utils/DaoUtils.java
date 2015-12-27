@@ -8,6 +8,10 @@ import com.bingo.riding.dao.ChatMessageDao;
 import com.bingo.riding.dao.DaoMaster;
 import com.bingo.riding.dao.DaoSession;
 
+import java.util.List;
+
+import de.greenrobot.dao.query.QueryBuilder;
+
 /**
  * Created by bingo on 15/12/17.
  */
@@ -40,5 +44,13 @@ public class DaoUtils {
 
     public void updateReadChatMessage(ChatMessage chatMessage){
         chatMessageDao.update(chatMessage);
+    }
+
+    public List<ChatMessage> getMessagesAccordingToConversationId(String conversationId){
+        QueryBuilder queryBuilder = chatMessageDao.queryBuilder();
+        queryBuilder.orderAsc(ChatMessageDao.Properties.Timestamp);
+        queryBuilder.limit(20);
+        queryBuilder.where(ChatMessageDao.Properties.ConversationId.eq(conversationId));
+        return queryBuilder.list();
     }
 }

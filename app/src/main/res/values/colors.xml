@@ -11,4 +11,6 @@
 
     <color name="deep_orange">#FF5722</color>
     <color name="light_orange">#FF7043</color>
+
+    <color name="divider_line_color">#afafaf</color>
 </resources>

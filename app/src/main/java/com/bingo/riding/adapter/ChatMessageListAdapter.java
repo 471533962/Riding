@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.avos.avoscloud.im.v2.AVIMMessage;
 import com.bingo.riding.R;
+import com.bingo.riding.dao.ChatMessage;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.signature.StringSignature;
@@ -24,11 +25,11 @@ public class ChatMessageListAdapter extends RecyclerView.Adapter<ChatMessageList
     public static String SELF_USER_PIC = "self_pic";
     public static String OTHER_USER_PIC = "user_pic";
 
-    private List<AVIMMessage> messageList;
+    private List<ChatMessage> messageList;
     private Context mContext;
     private HashMap<String, String> userPicHash;
 
-    public ChatMessageListAdapter(Context mContext, List<AVIMMessage> messageList, HashMap<String, String> userPicHash) {
+    public ChatMessageListAdapter(Context mContext, List<ChatMessage> messageList, HashMap<String, String> userPicHash) {
         this.mContext = mContext;
         this.messageList = messageList;
         this.userPicHash = userPicHash;
@@ -66,18 +67,18 @@ public class ChatMessageListAdapter extends RecyclerView.Adapter<ChatMessageList
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        AVIMMessage avMessage = messageList.get(position);
+        ChatMessage chatMessage = messageList.get(position);
 
-        if (avMessage.getMessageIOType() == AVIMMessage.AVIMMessageIOType.AVIMMessageIOTypeIn){
-            //自己发的
-            holder.chat_item_me_content.setText(avMessage.getContent());
+        if (chatMessage.getIsSendByUser() == false){
+            //收到的
+            holder.chat_item_me_content.setText(chatMessage.getContent());
             Glide.with(mContext.getApplicationContext())
-                    .load(userPicHash.get(SELF_USER_PIC))
+                    .load(userPicHash.get(OTHER_USER_PIC))
                     .signature(new StringSignature(userPicHash.get(SELF_USER_PIC)))
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
                     .placeholder(R.drawable.a0c)
                     .error(R.drawable.default_error)
-                    .override(250, 250)
+                    .override(150, 150)
                     .centerCrop()
                     .into(holder.chat_item_me_pic);
 
@@ -86,15 +87,15 @@ public class ChatMessageListAdapter extends RecyclerView.Adapter<ChatMessageList
             holder.chat_item_user_content.setVisibility(View.GONE);
             holder.chat_item_user_pic.setVisibility(View.GONE);
         }else{
-            //收到的
-            holder.chat_item_user_content.setText(avMessage.getContent());
+            //自己发的
+            holder.chat_item_user_content.setText(chatMessage.getContent());
             Glide.with(mContext.getApplicationContext())
-                    .load(userPicHash.get(OTHER_USER_PIC))
+                    .load(userPicHash.get(SELF_USER_PIC))
                     .signature(new StringSignature(userPicHash.get(OTHER_USER_PIC)))
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
                     .placeholder(R.drawable.a0c)
                     .error(R.drawable.default_error)
-                    .override(250, 250)
+                    .override(150, 150)
                     .centerCrop()
                     .into(holder.chat_item_user_pic);
 

@@ -10,6 +10,8 @@
             android:title="@string/riding"/>
         <item android:id="@+id/nav_friends" android:icon="@drawable/ic_people_grey_500_24dp"
             android:title="@string/friends"/>
+        <item android:id="@+id/nav_message" android:icon="@drawable/ic_chat_grey_500_24dp"
+            android:title="@string/message"/>
     </group>
 
     <item android:title="@string/more">

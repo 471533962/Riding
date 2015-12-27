@@ -46,31 +46,16 @@ public class SplashActivity extends AppCompatActivity {
 
         intent = new Intent(SplashActivity.this, MainActivity.class);
 
-        new BackgroundTask().execute();
-    }
-
-    class BackgroundTask extends AsyncTask {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Object doInBackground(Object[] params) {
-            try {
-                AVUser.getCurrentUser().fetch();
-            }catch (Exception e){
-                e.printStackTrace();
+        AVImClientManager.getInstance().open(AVUser.getCurrentUser().getObjectId(), new AVIMClientCallback() {
+            @Override
+            public void done(AVIMClient avimClient, AVIMException e) {
+                if (e != null){
+                    Toast.makeText(SplashActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+                startActivity(intent);
+                finish();
             }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-            super.onPostExecute(o);
-            startActivity(intent);
-            finish();
-        }
+        });
     }
 }

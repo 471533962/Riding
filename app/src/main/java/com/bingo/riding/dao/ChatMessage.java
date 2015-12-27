@@ -10,11 +10,9 @@ public class ChatMessage {
     private boolean isRead;
     /** Not-null value. */
     private String content;
-    /** Not-null value. */
     private String clientId;
     /** Not-null value. */
     private String conversationId;
-    /** Not-null value. */
     private String messageId;
     private long timestamp;
     private Long receiptTimestamp;
@@ -65,12 +63,10 @@ public class ChatMessage {
         this.content = content;
     }
 
-    /** Not-null value. */
     public String getClientId() {
         return clientId;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
     public void setClientId(String clientId) {
         this.clientId = clientId;
     }
@@ -85,12 +81,10 @@ public class ChatMessage {
         this.conversationId = conversationId;
     }
 
-    /** Not-null value. */
     public String getMessageId() {
         return messageId;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
     public void setMessageId(String messageId) {
         this.messageId = messageId;
     }

@@ -70,6 +70,9 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
                 .load(avUser.getAVFile("userPhoto").getUrl())
                 .signature(new StringSignature(avUser.getAVFile("userPhoto").getUrl()))
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .placeholder(R.drawable.a0c)
+                .error(R.drawable.default_error)
+                .centerCrop()
                 .into(personalImage_imageView);
     }
 

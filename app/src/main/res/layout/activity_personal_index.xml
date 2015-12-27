@@ -26,13 +26,126 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="5dp"
-        android:background="@color/white"
+        android:background="@color/c_light_grey"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_scrollFlags="scroll"
         tools:context="com.bingo.riding.PersonalIndexActivity"
         tools:showIn="@layout/activity_personal_index">
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+            <RelativeLayout
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/user_photo"
+                    android:scaleType="centerCrop"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp" />
+
+                <TextView
+                    android:id="@+id/user_name"
+                    android:text="吴斌"
+                    android:textSize="16sp"
+                    android:textColor="#42A5F5"
+                    android:layout_toRightOf="@id/user_photo"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/personalSex"
+                android:clickable="true"
+                android:background="@drawable/linear_bg_selector"
+                android:padding="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:drawablePadding="10dp"
+                    android:layout_centerVertical="true"
+                    android:text="性别"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/user_sex"
+                    android:text="男"
+                    android:layout_marginRight="20dp"
+                    android:singleLine="true"
+                    android:textSize="16sp"
+                    android:textColor="@color/grey"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+            <View
+                android:background="@color/grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <RelativeLayout
+                android:id="@+id/personalMessage"
+                android:clickable="true"
+                android:background="@drawable/linear_bg_selector"
+                android:padding="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:drawablePadding="10dp"
+                    android:layout_centerVertical="true"
+                    android:text="个性签名"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/user_message"
+                    android:text="我们划船不用浆，去哪都靠浪。"
+                    android:layout_marginRight="10dp"
+                    android:singleLine="true"
+                    android:textSize="16sp"
+                    android:textColor="@color/grey"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+
+            <Button
+                android:text="私信"
+                android:id="@+id/have_chat"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bluebox"/>
+
+        </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
 

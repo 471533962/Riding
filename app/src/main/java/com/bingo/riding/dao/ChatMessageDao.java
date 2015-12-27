@@ -50,9 +50,9 @@ public class ChatMessageDao extends AbstractDao<ChatMessage, Long> {
                 "'_id' INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "'IS_READ' INTEGER NOT NULL ," + // 1: isRead
                 "'CONTENT' TEXT NOT NULL ," + // 2: content
-                "'CLIENT_ID' TEXT NOT NULL ," + // 3: clientId
+                "'CLIENT_ID' TEXT," + // 3: clientId
                 "'CONVERSATION_ID' TEXT NOT NULL ," + // 4: conversationId
-                "'MESSAGE_ID' TEXT NOT NULL ," + // 5: messageId
+                "'MESSAGE_ID' TEXT," + // 5: messageId
                 "'TIMESTAMP' INTEGER NOT NULL ," + // 6: timestamp
                 "'RECEIPT_TIMESTAMP' INTEGER," + // 7: receiptTimestamp
                 "'IS_SEND_BY_USER' INTEGER NOT NULL );"); // 8: isSendByUser
@@ -75,9 +75,17 @@ public class ChatMessageDao extends AbstractDao<ChatMessage, Long> {
         }
         stmt.bindLong(2, entity.getIsRead() ? 1l: 0l);
         stmt.bindString(3, entity.getContent());
-        stmt.bindString(4, entity.getClientId());
+ 
+        String clientId = entity.getClientId();
+        if (clientId != null) {
+            stmt.bindString(4, clientId);
+        }
         stmt.bindString(5, entity.getConversationId());
-        stmt.bindString(6, entity.getMessageId());
+ 
+        String messageId = entity.getMessageId();
+        if (messageId != null) {
+            stmt.bindString(6, messageId);
+        }
         stmt.bindLong(7, entity.getTimestamp());
  
         Long receiptTimestamp = entity.getReceiptTimestamp();
@@ -100,9 +108,9 @@ public class ChatMessageDao extends AbstractDao<ChatMessage, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.getShort(offset + 1) != 0, // isRead
             cursor.getString(offset + 2), // content
-            cursor.getString(offset + 3), // clientId
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // clientId
             cursor.getString(offset + 4), // conversationId
-            cursor.getString(offset + 5), // messageId
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // messageId
             cursor.getLong(offset + 6), // timestamp
             cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7), // receiptTimestamp
             cursor.getShort(offset + 8) != 0 // isSendByUser
@@ -116,9 +124,9 @@ public class ChatMessageDao extends AbstractDao<ChatMessage, Long> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setIsRead(cursor.getShort(offset + 1) != 0);
         entity.setContent(cursor.getString(offset + 2));
-        entity.setClientId(cursor.getString(offset + 3));
+        entity.setClientId(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setConversationId(cursor.getString(offset + 4));
-        entity.setMessageId(cursor.getString(offset + 5));
+        entity.setMessageId(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setTimestamp(cursor.getLong(offset + 6));
         entity.setReceiptTimestamp(cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7));
         entity.setIsSendByUser(cursor.getShort(offset + 8) != 0);

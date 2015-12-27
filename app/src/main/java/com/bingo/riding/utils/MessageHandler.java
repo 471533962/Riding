@@ -9,7 +9,10 @@ import com.avos.avoscloud.im.v2.AVIMTypedMessage;
 import com.avos.avoscloud.im.v2.AVIMTypedMessageHandler;
 import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.bingo.riding.R;
+import com.bingo.riding.event.ImTypeMessageEvent;
 import com.bingo.riding.receiver.NotificationBroadcastReceiver;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by bingo on 15/12/17.
@@ -31,12 +34,11 @@ public class MessageHandler extends AVIMTypedMessageHandler<AVIMTypedMessage> {
         try{
             clientId = AVImClientManager.getInstance().getClientId();
             if (client.getClientId().equals(clientId)){
-                if (message.getFrom().equals(clientId)){
-
+                if (!message.getFrom().equals(clientId)){
+                    sendEvent(message, conversation);
                     if (NotificationUtils.isShowNotification(conversation.getConversationId())){
-
+                        sendNotification(message, conversation);
                     }
-
                 }
             } else {
                 client.close(null);
@@ -45,6 +47,20 @@ public class MessageHandler extends AVIMTypedMessageHandler<AVIMTypedMessage> {
             client.close(null);
         }
     }
+
+    /**
+     * 因为没有 db，所以暂时先把消息广播出去，由接收方自己处理
+     * 稍后应该加入 db
+     * @param message
+     * @param conversation
+     */
+    private void sendEvent(AVIMTypedMessage message, AVIMConversation conversation) {
+        ImTypeMessageEvent event = new ImTypeMessageEvent();
+        event.message = message;
+        event.conversation = conversation;
+        EventBus.getDefault().post(event);
+    }
+
 
     private void sendNotification(AVIMTypedMessage message, AVIMConversation conversation) {
         String notificationContent = message instanceof AVIMTextMessage ?

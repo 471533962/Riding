@@ -9,4 +9,7 @@
 
     <dimen name="activity_launch_title">30sp</dimen>
     <dimen name="activity_launch_subtitle">20sp</dimen>
+
+    <!-- input bottom bar -->
+    <dimen name="chat_input_bar_height">55dp</dimen>
 </resources>
