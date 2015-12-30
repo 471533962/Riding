@@ -16,7 +16,8 @@ public class ChatMessage {
     private String messageId;
     private long timestamp;
     private Long receiptTimestamp;
-    private boolean isSendByUser;
+    private Integer status;
+    private int ioType;
 
     public ChatMessage() {
     }
@@ -25,7 +26,7 @@ public class ChatMessage {
         this.id = id;
     }
 
-    public ChatMessage(Long id, boolean isRead, String content, String clientId, String conversationId, String messageId, long timestamp, Long receiptTimestamp, boolean isSendByUser) {
+    public ChatMessage(Long id, boolean isRead, String content, String clientId, String conversationId, String messageId, long timestamp, Long receiptTimestamp, Integer status, int ioType) {
         this.id = id;
         this.isRead = isRead;
         this.content = content;
@@ -34,7 +35,8 @@ public class ChatMessage {
         this.messageId = messageId;
         this.timestamp = timestamp;
         this.receiptTimestamp = receiptTimestamp;
-        this.isSendByUser = isSendByUser;
+        this.status = status;
+        this.ioType = ioType;
     }
 
     public Long getId() {
@@ -105,12 +107,20 @@ public class ChatMessage {
         this.receiptTimestamp = receiptTimestamp;
     }
 
-    public boolean getIsSendByUser() {
-        return isSendByUser;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setIsSendByUser(boolean isSendByUser) {
-        this.isSendByUser = isSendByUser;
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public int getIoType() {
+        return ioType;
+    }
+
+    public void setIoType(int ioType) {
+        this.ioType = ioType;
     }
 
 }

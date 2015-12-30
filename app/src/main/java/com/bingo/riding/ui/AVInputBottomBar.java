@@ -87,7 +87,7 @@ public class AVInputBottomBar extends FrameLayout {
                 ChatMessage chatMessage = new ChatMessage();
 
                 chatMessage.setTimestamp(System.currentTimeMillis());
-                chatMessage.setIsSendByUser(true);
+                chatMessage.setIoType(AVIMMessage.AVIMMessageIOType.AVIMMessageIOTypeOut.getIOType());
                 chatMessage.setIsRead(true);
                 chatMessage.setConversationId(conversationId);
                 chatMessage.setContent(content);

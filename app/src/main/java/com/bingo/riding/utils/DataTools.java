@@ -86,10 +86,10 @@ public class DataTools {
         return discussion;
     }
 
-    public static ChatMessage getChatMessageFromAVIMTypedMessage(AVIMTypedMessage avimTextMessage, boolean isRead){
+    public static ChatMessage getChatMessageFromAVIMMessage (AVIMMessage avimMessage, boolean isRead){
         ChatMessage chatMessage = new ChatMessage();
-        chatMessage.setContent(JSON.parseObject(avimTextMessage.getContent()).getString("_lctext"));
-        chatMessage.setIsSendByUser(avimTextMessage.getMessageIOType().getIOType() == AVIMMessage.AVIMMessageIOType.AVIMMessageIOTypeIn.getIOType());
+        chatMessage.setContent(JSON.parseObject(avimMessage.getContent()).getString("_lctext"));
+        chatMessage.setIoType(avimMessage.getMessageIOType().getIOType());
 
         return chatMessage;
     }

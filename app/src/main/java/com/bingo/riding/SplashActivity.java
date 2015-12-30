@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
+import com.avos.avoscloud.AVInstallation;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMException;
@@ -46,6 +47,10 @@ public class SplashActivity extends AppCompatActivity {
 
         intent = new Intent(SplashActivity.this, MainActivity.class);
 
+        AVUser.getCurrentUser().put("installation", AVInstallation.getCurrentInstallation());
+        AVUser.getCurrentUser().setFetchWhenSave(true);
+        AVUser.getCurrentUser().saveInBackground();
+
         AVImClientManager.getInstance().open(AVUser.getCurrentUser().getObjectId(), new AVIMClientCallback() {
             @Override
             public void done(AVIMClient avimClient, AVIMException e) {
@@ -57,5 +62,7 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
     }
 }

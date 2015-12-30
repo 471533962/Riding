@@ -21,30 +21,41 @@
 
     </android.support.design.widget.AppBarLayout>
 
-
-    <LinearLayout
+    <RelativeLayout
         android:paddingTop="5dp"
         android:background="@color/white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_scrollFlags="scroll"
         tools:context="com.bingo.riding.ChatActivity"
         tools:showIn="@layout/activity_chat"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.bingo.riding.ui.AVInputBottomBar
+            android:id="@+id/hide_bottombar"
+            android:visibility="invisible"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"/>
+
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
+            android:layout_above="@id/hide_bottombar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/chat_message_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent">
+
+            </android.support.v7.widget.RecyclerView>
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <com.bingo.riding.ui.AVInputBottomBar
         android:id="@+id/fragment_chat_inputbottombar"

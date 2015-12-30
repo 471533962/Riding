@@ -64,7 +64,11 @@
         <activity
             android:name=".ModifyActivity"
             android:parentActivityName=".PersonalInfoActivity" />
-        <activity android:name=".MessageMangerActivity" />
+        <activity
+            android:name=".MessageMangerActivity"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MessageDetailActivity"
             android:label="@string/title_activity_message_detail"
@@ -79,15 +83,18 @@
         <activity
             android:name=".PersonalIndexActivity"
             android:launchMode="singleInstance"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- 实时通信模块、推送（若使用该功能，需添加以下声明）START -->
-        <service android:name="com.avos.avoscloud.PushService"/>
+        <service
+            android:name="com.avos.avoscloud.PushService"
+            android:exported="true"/>
+
         <receiver android:name="com.avos.avoscloud.AVBroadcastReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.USER_PRESENT"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
         <!-- 实时通信模块、推送 END -->

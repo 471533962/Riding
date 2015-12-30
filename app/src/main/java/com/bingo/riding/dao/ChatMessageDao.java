@@ -31,7 +31,8 @@ public class ChatMessageDao extends AbstractDao<ChatMessage, Long> {
         public final static Property MessageId = new Property(5, String.class, "messageId", false, "MESSAGE_ID");
         public final static Property Timestamp = new Property(6, long.class, "timestamp", false, "TIMESTAMP");
         public final static Property ReceiptTimestamp = new Property(7, Long.class, "receiptTimestamp", false, "RECEIPT_TIMESTAMP");
-        public final static Property IsSendByUser = new Property(8, boolean.class, "isSendByUser", false, "IS_SEND_BY_USER");
+        public final static Property Status = new Property(8, Integer.class, "status", false, "STATUS");
+        public final static Property IoType = new Property(9, int.class, "ioType", false, "IO_TYPE");
     };
 
 
@@ -55,7 +56,8 @@ public class ChatMessageDao extends AbstractDao<ChatMessage, Long> {
                 "'MESSAGE_ID' TEXT," + // 5: messageId
                 "'TIMESTAMP' INTEGER NOT NULL ," + // 6: timestamp
                 "'RECEIPT_TIMESTAMP' INTEGER," + // 7: receiptTimestamp
-                "'IS_SEND_BY_USER' INTEGER NOT NULL );"); // 8: isSendByUser
+                "'STATUS' INTEGER," + // 8: status
+                "'IO_TYPE' INTEGER NOT NULL );"); // 9: ioType
     }
 
     /** Drops the underlying database table. */
@@ -92,7 +94,12 @@ public class ChatMessageDao extends AbstractDao<ChatMessage, Long> {
         if (receiptTimestamp != null) {
             stmt.bindLong(8, receiptTimestamp);
         }
-        stmt.bindLong(9, entity.getIsSendByUser() ? 1l: 0l);
+ 
+        Integer status = entity.getStatus();
+        if (status != null) {
+            stmt.bindLong(9, status);
+        }
+        stmt.bindLong(10, entity.getIoType());
     }
 
     /** @inheritdoc */
@@ -113,7 +120,8 @@ public class ChatMessageDao extends AbstractDao<ChatMessage, Long> {
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // messageId
             cursor.getLong(offset + 6), // timestamp
             cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7), // receiptTimestamp
-            cursor.getShort(offset + 8) != 0 // isSendByUser
+            cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8), // status
+            cursor.getInt(offset + 9) // ioType
         );
         return entity;
     }
@@ -129,7 +137,8 @@ public class ChatMessageDao extends AbstractDao<ChatMessage, Long> {
         entity.setMessageId(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setTimestamp(cursor.getLong(offset + 6));
         entity.setReceiptTimestamp(cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7));
-        entity.setIsSendByUser(cursor.getShort(offset + 8) != 0);
+        entity.setStatus(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
+        entity.setIoType(cursor.getInt(offset + 9));
      }
     
     /** @inheritdoc */

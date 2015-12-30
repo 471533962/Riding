@@ -2,8 +2,11 @@ package com.bingo.riding;
 
 import android.app.Application;
 
+import com.avos.avoscloud.AVCloud;
+import com.avos.avoscloud.AVInstallation;
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.PushService;
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMException;
 import com.avos.avoscloud.im.v2.AVIMMessage;
@@ -27,6 +30,15 @@ public class BaseApplication extends Application {
 //        AVOSCloud.useAVCloudUS();
         AVOSCloud.initialize(this, APP_ID, APP_KEY);
 //        .initialize(getApplicationContext());
-        AVIMMessageManager.registerMessageHandler(AVIMTypedMessage.class, new MessageHandler(this));
+        AVIMMessageManager.registerDefaultMessageHandler(new MessageHandler(this));
+
+        AVOSCloud.setDebugLogEnabled(true);
+
+        //注册设备到服务端
+        PushService.setDefaultPushCallback(this, MessageMangerActivity.class);
+        PushService.subscribe(this, "Discussion", MessageMangerActivity.class);
+        AVInstallation.getCurrentInstallation().saveInBackground();
+        //测试环境云代码
+//        AVCloud.setProductionMode(false);
     }
 }

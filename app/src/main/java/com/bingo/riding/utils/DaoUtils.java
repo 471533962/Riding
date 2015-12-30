@@ -53,4 +53,5 @@ public class DaoUtils {
         queryBuilder.where(ChatMessageDao.Properties.ConversationId.eq(conversationId));
         return queryBuilder.list();
     }
+
 }

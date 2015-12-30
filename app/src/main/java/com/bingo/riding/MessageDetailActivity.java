@@ -219,6 +219,7 @@ public class MessageDetailActivity extends AppCompatActivity implements View.OnC
                                 discuss.put("replier", pretendReply.getPoster());
                             }
                             discuss.put("content", commentContent);
+                            discuss.put("centerMessage", message.getMessageObject());
                             discuss.setFetchWhenSave(true);
                             discuss.save();
 

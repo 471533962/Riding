@@ -19,6 +19,7 @@ import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 import com.bingo.riding.CustomActivity;
 import com.bingo.riding.MainActivity;
 import com.bingo.riding.R;
+import com.bingo.riding.SplashActivity;
 import com.bingo.riding.utils.AVImClientManager;
 import com.bingo.riding.utils.Utils;
 
@@ -79,7 +80,7 @@ public class LoginFragment extends Fragment {
                                         Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                                         e.printStackTrace();
                                     }
-                                    Utils.startActivity(getActivity(), MainActivity.class);
+                                    Utils.startActivity(getActivity(), SplashActivity.class);
                                     Utils.finish(getActivity());
                                 }
                             });

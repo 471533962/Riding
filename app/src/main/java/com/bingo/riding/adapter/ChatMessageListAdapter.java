@@ -35,7 +35,7 @@ public class ChatMessageListAdapter extends RecyclerView.Adapter<ChatMessageList
         this.userPicHash = userPicHash;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView chat_item_me_content;
         private TextView chat_item_user_content;
         private ImageView chat_item_user_pic;
@@ -69,7 +69,7 @@ public class ChatMessageListAdapter extends RecyclerView.Adapter<ChatMessageList
     public void onBindViewHolder(ViewHolder holder, int position) {
         ChatMessage chatMessage = messageList.get(position);
 
-        if (chatMessage.getIsSendByUser() == false){
+        if (chatMessage.getIoType() == AVIMMessage.AVIMMessageIOType.AVIMMessageIOTypeIn.getIOType()) {
             //收到的
             holder.chat_item_me_content.setText(chatMessage.getContent());
             Glide.with(mContext.getApplicationContext())
@@ -86,7 +86,7 @@ public class ChatMessageListAdapter extends RecyclerView.Adapter<ChatMessageList
             holder.chat_item_me_content.setVisibility(View.VISIBLE);
             holder.chat_item_user_content.setVisibility(View.GONE);
             holder.chat_item_user_pic.setVisibility(View.GONE);
-        }else{
+        } else {
             //自己发的
             holder.chat_item_user_content.setText(chatMessage.getContent());
             Glide.with(mContext.getApplicationContext())
