@@ -1,11 +1,14 @@
 package com.bingo.riding.dao;
 
+import java.util.List;
+import java.util.ArrayList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
+import de.greenrobot.dao.internal.SqlUtils;
 import de.greenrobot.dao.internal.DaoConfig;
 
 import com.bingo.riding.dao.ChatMessage;
@@ -27,13 +30,15 @@ public class ChatMessageDao extends AbstractDao<ChatMessage, Long> {
         public final static Property IsRead = new Property(1, boolean.class, "isRead", false, "IS_READ");
         public final static Property Content = new Property(2, String.class, "content", false, "CONTENT");
         public final static Property ClientId = new Property(3, String.class, "clientId", false, "CLIENT_ID");
-        public final static Property ConversationId = new Property(4, String.class, "conversationId", false, "CONVERSATION_ID");
-        public final static Property MessageId = new Property(5, String.class, "messageId", false, "MESSAGE_ID");
-        public final static Property Timestamp = new Property(6, long.class, "timestamp", false, "TIMESTAMP");
-        public final static Property ReceiptTimestamp = new Property(7, Long.class, "receiptTimestamp", false, "RECEIPT_TIMESTAMP");
-        public final static Property Status = new Property(8, Integer.class, "status", false, "STATUS");
-        public final static Property IoType = new Property(9, int.class, "ioType", false, "IO_TYPE");
+        public final static Property MessageId = new Property(4, String.class, "messageId", false, "MESSAGE_ID");
+        public final static Property Timestamp = new Property(5, long.class, "timestamp", false, "TIMESTAMP");
+        public final static Property ReceiptTimestamp = new Property(6, Long.class, "receiptTimestamp", false, "RECEIPT_TIMESTAMP");
+        public final static Property Status = new Property(7, Integer.class, "status", false, "STATUS");
+        public final static Property IoType = new Property(8, int.class, "ioType", false, "IO_TYPE");
+        public final static Property ConversationId = new Property(9, String.class, "conversationId", false, "CONVERSATION_ID");
     };
+
+    private DaoSession daoSession;
 
 
     public ChatMessageDao(DaoConfig config) {
@@ -42,6 +47,7 @@ public class ChatMessageDao extends AbstractDao<ChatMessage, Long> {
     
     public ChatMessageDao(DaoConfig config, DaoSession daoSession) {
         super(config, daoSession);
+        this.daoSession = daoSession;
     }
 
     /** Creates the underlying database table. */
@@ -52,12 +58,12 @@ public class ChatMessageDao extends AbstractDao<ChatMessage, Long> {
                 "'IS_READ' INTEGER NOT NULL ," + // 1: isRead
                 "'CONTENT' TEXT NOT NULL ," + // 2: content
                 "'CLIENT_ID' TEXT," + // 3: clientId
-                "'CONVERSATION_ID' TEXT NOT NULL ," + // 4: conversationId
-                "'MESSAGE_ID' TEXT," + // 5: messageId
-                "'TIMESTAMP' INTEGER NOT NULL ," + // 6: timestamp
-                "'RECEIPT_TIMESTAMP' INTEGER," + // 7: receiptTimestamp
-                "'STATUS' INTEGER," + // 8: status
-                "'IO_TYPE' INTEGER NOT NULL );"); // 9: ioType
+                "'MESSAGE_ID' TEXT," + // 4: messageId
+                "'TIMESTAMP' INTEGER NOT NULL ," + // 5: timestamp
+                "'RECEIPT_TIMESTAMP' INTEGER," + // 6: receiptTimestamp
+                "'STATUS' INTEGER," + // 7: status
+                "'IO_TYPE' INTEGER NOT NULL ," + // 8: ioType
+                "'CONVERSATION_ID' TEXT);"); // 9: conversationId
     }
 
     /** Drops the underlying database table. */
@@ -82,24 +88,34 @@ public class ChatMessageDao extends AbstractDao<ChatMessage, Long> {
         if (clientId != null) {
             stmt.bindString(4, clientId);
         }
-        stmt.bindString(5, entity.getConversationId());
  
         String messageId = entity.getMessageId();
         if (messageId != null) {
-            stmt.bindString(6, messageId);
+            stmt.bindString(5, messageId);
         }
-        stmt.bindLong(7, entity.getTimestamp());
+        stmt.bindLong(6, entity.getTimestamp());
  
         Long receiptTimestamp = entity.getReceiptTimestamp();
         if (receiptTimestamp != null) {
-            stmt.bindLong(8, receiptTimestamp);
+            stmt.bindLong(7, receiptTimestamp);
         }
  
         Integer status = entity.getStatus();
         if (status != null) {
-            stmt.bindLong(9, status);
+            stmt.bindLong(8, status);
         }
-        stmt.bindLong(10, entity.getIoType());
+        stmt.bindLong(9, entity.getIoType());
+ 
+        String conversationId = entity.getConversationId();
+        if (conversationId != null) {
+            stmt.bindString(10, conversationId);
+        }
+    }
+
+    @Override
+    protected void attachEntity(ChatMessage entity) {
+        super.attachEntity(entity);
+        entity.__setDaoSession(daoSession);
     }
 
     /** @inheritdoc */
@@ -116,12 +132,12 @@ public class ChatMessageDao extends AbstractDao<ChatMessage, Long> {
             cursor.getShort(offset + 1) != 0, // isRead
             cursor.getString(offset + 2), // content
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // clientId
-            cursor.getString(offset + 4), // conversationId
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // messageId
-            cursor.getLong(offset + 6), // timestamp
-            cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7), // receiptTimestamp
-            cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8), // status
-            cursor.getInt(offset + 9) // ioType
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // messageId
+            cursor.getLong(offset + 5), // timestamp
+            cursor.isNull(offset + 6) ? null : cursor.getLong(offset + 6), // receiptTimestamp
+            cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7), // status
+            cursor.getInt(offset + 8), // ioType
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9) // conversationId
         );
         return entity;
     }
@@ -133,12 +149,12 @@ public class ChatMessageDao extends AbstractDao<ChatMessage, Long> {
         entity.setIsRead(cursor.getShort(offset + 1) != 0);
         entity.setContent(cursor.getString(offset + 2));
         entity.setClientId(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setConversationId(cursor.getString(offset + 4));
-        entity.setMessageId(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setTimestamp(cursor.getLong(offset + 6));
-        entity.setReceiptTimestamp(cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7));
-        entity.setStatus(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
-        entity.setIoType(cursor.getInt(offset + 9));
+        entity.setMessageId(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setTimestamp(cursor.getLong(offset + 5));
+        entity.setReceiptTimestamp(cursor.isNull(offset + 6) ? null : cursor.getLong(offset + 6));
+        entity.setStatus(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
+        entity.setIoType(cursor.getInt(offset + 8));
+        entity.setConversationId(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
      }
     
     /** @inheritdoc */
@@ -164,4 +180,95 @@ public class ChatMessageDao extends AbstractDao<ChatMessage, Long> {
         return true;
     }
     
+    private String selectDeep;
+
+    protected String getSelectDeep() {
+        if (selectDeep == null) {
+            StringBuilder builder = new StringBuilder("SELECT ");
+            SqlUtils.appendColumns(builder, "T", getAllColumns());
+            builder.append(',');
+            SqlUtils.appendColumns(builder, "T0", daoSession.getConversationDao().getAllColumns());
+            builder.append(" FROM CHAT_MESSAGE T");
+            builder.append(" LEFT JOIN CONVERSATION T0 ON T.'CONVERSATION_ID'=T0.'CONVERSATION_ID'");
+            builder.append(' ');
+            selectDeep = builder.toString();
+        }
+        return selectDeep;
+    }
+    
+    protected ChatMessage loadCurrentDeep(Cursor cursor, boolean lock) {
+        ChatMessage entity = loadCurrent(cursor, 0, lock);
+        int offset = getAllColumns().length;
+
+        Conversation conversation = loadCurrentOther(daoSession.getConversationDao(), cursor, offset);
+        entity.setConversation(conversation);
+
+        return entity;    
+    }
+
+    public ChatMessage loadDeep(Long key) {
+        assertSinglePk();
+        if (key == null) {
+            return null;
+        }
+
+        StringBuilder builder = new StringBuilder(getSelectDeep());
+        builder.append("WHERE ");
+        SqlUtils.appendColumnsEqValue(builder, "T", getPkColumns());
+        String sql = builder.toString();
+        
+        String[] keyArray = new String[] { key.toString() };
+        Cursor cursor = db.rawQuery(sql, keyArray);
+        
+        try {
+            boolean available = cursor.moveToFirst();
+            if (!available) {
+                return null;
+            } else if (!cursor.isLast()) {
+                throw new IllegalStateException("Expected unique result, but count was " + cursor.getCount());
+            }
+            return loadCurrentDeep(cursor, true);
+        } finally {
+            cursor.close();
+        }
+    }
+    
+    /** Reads all available rows from the given cursor and returns a list of new ImageTO objects. */
+    public List<ChatMessage> loadAllDeepFromCursor(Cursor cursor) {
+        int count = cursor.getCount();
+        List<ChatMessage> list = new ArrayList<ChatMessage>(count);
+        
+        if (cursor.moveToFirst()) {
+            if (identityScope != null) {
+                identityScope.lock();
+                identityScope.reserveRoom(count);
+            }
+            try {
+                do {
+                    list.add(loadCurrentDeep(cursor, false));
+                } while (cursor.moveToNext());
+            } finally {
+                if (identityScope != null) {
+                    identityScope.unlock();
+                }
+            }
+        }
+        return list;
+    }
+    
+    protected List<ChatMessage> loadDeepAllAndCloseCursor(Cursor cursor) {
+        try {
+            return loadAllDeepFromCursor(cursor);
+        } finally {
+            cursor.close();
+        }
+    }
+    
+
+    /** A raw-style query where you can pass any WHERE clause and arguments. */
+    public List<ChatMessage> queryDeep(String where, String... selectionArg) {
+        Cursor cursor = db.rawQuery(getSelectDeep() + where, selectionArg);
+        return loadDeepAllAndCloseCursor(cursor);
+    }
+ 
 }

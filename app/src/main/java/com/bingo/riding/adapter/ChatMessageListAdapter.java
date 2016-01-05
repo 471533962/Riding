@@ -72,15 +72,19 @@ public class ChatMessageListAdapter extends RecyclerView.Adapter<ChatMessageList
         if (chatMessage.getIoType() == AVIMMessage.AVIMMessageIOType.AVIMMessageIOTypeIn.getIOType()) {
             //收到的
             holder.chat_item_me_content.setText(chatMessage.getContent());
-            Glide.with(mContext.getApplicationContext())
-                    .load(userPicHash.get(OTHER_USER_PIC))
-                    .signature(new StringSignature(userPicHash.get(SELF_USER_PIC)))
-                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                    .placeholder(R.drawable.a0c)
-                    .error(R.drawable.default_error)
-                    .override(150, 150)
-                    .centerCrop()
-                    .into(holder.chat_item_me_pic);
+            if (userPicHash.get(OTHER_USER_PIC) != null){
+                Glide.with(mContext.getApplicationContext())
+                        .load(userPicHash.get(OTHER_USER_PIC))
+                        .signature(new StringSignature(userPicHash.get(SELF_USER_PIC)))
+                        .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                        .placeholder(R.drawable.a0c)
+                        .error(R.drawable.default_error)
+                        .override(150, 150)
+                        .centerCrop()
+                        .into(holder.chat_item_me_pic);
+            }else{
+                holder.chat_item_me_pic.setImageResource(R.drawable.test_user_pic);
+            }
 
             holder.chat_item_me_pic.setVisibility(View.VISIBLE);
             holder.chat_item_me_content.setVisibility(View.VISIBLE);
@@ -89,15 +93,19 @@ public class ChatMessageListAdapter extends RecyclerView.Adapter<ChatMessageList
         } else {
             //自己发的
             holder.chat_item_user_content.setText(chatMessage.getContent());
-            Glide.with(mContext.getApplicationContext())
-                    .load(userPicHash.get(SELF_USER_PIC))
-                    .signature(new StringSignature(userPicHash.get(OTHER_USER_PIC)))
-                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                    .placeholder(R.drawable.a0c)
-                    .error(R.drawable.default_error)
-                    .override(150, 150)
-                    .centerCrop()
-                    .into(holder.chat_item_user_pic);
+            if (userPicHash.get(SELF_USER_PIC) != null){
+                Glide.with(mContext.getApplicationContext())
+                        .load(userPicHash.get(SELF_USER_PIC))
+                        .signature(new StringSignature(userPicHash.get(OTHER_USER_PIC)))
+                        .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                        .placeholder(R.drawable.a0c)
+                        .error(R.drawable.default_error)
+                        .override(150, 150)
+                        .centerCrop()
+                        .into(holder.chat_item_user_pic);
+            }else{
+                holder.chat_item_user_pic.setImageResource(R.drawable.test_user_pic);
+            }
 
             holder.chat_item_me_pic.setVisibility(View.GONE);
             holder.chat_item_me_content.setVisibility(View.GONE);

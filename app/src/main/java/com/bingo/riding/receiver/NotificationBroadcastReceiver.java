@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
+import com.bingo.riding.ChatActivity;
 import com.bingo.riding.CustomActivity;
 import com.bingo.riding.MainActivity;
 import com.bingo.riding.utils.AVImClientManager;
@@ -58,7 +59,7 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
      * @param intent
      */
     private void gotoSingleChatActivity(Context context, Intent intent) {
-        Intent startActivityIntent = new Intent(context, MainActivity.class);
+        Intent startActivityIntent = new Intent(context, ChatActivity.class);
         startActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        startActivityIntent.putExtra(Constants.MEMBER_ID, intent.getStringExtra(Constants.MEMBER_ID));
         context.startActivity(startActivityIntent);

@@ -13,4 +13,5 @@
     <color name="light_orange">#FF7043</color>
 
     <color name="divider_line_color">#afafaf</color>
+    <color name="chat_base_color_text_black">#3e3e39</color>
 </resources>

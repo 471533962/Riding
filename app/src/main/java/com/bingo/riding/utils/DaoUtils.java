@@ -5,8 +5,12 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.bingo.riding.dao.ChatMessage;
 import com.bingo.riding.dao.ChatMessageDao;
+import com.bingo.riding.dao.Conversation;
+import com.bingo.riding.dao.ConversationDao;
 import com.bingo.riding.dao.DaoMaster;
 import com.bingo.riding.dao.DaoSession;
+import com.bingo.riding.dao.User;
+import com.bingo.riding.dao.UserDao;
 
 import java.util.List;
 
@@ -20,6 +24,8 @@ public class DaoUtils {
     private static DaoUtils daoUtils;
 
     private ChatMessageDao chatMessageDao;
+    private UserDao userDao;
+    private ConversationDao conversationDao;
 
     private DaoUtils(Context context) {
         DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(context, DBNAME, null);
@@ -28,6 +34,9 @@ public class DaoUtils {
         DaoSession daoSession = daoMaster.newSession();
 
         chatMessageDao = daoSession.getChatMessageDao();
+        userDao = daoSession.getUserDao();
+        conversationDao = daoSession.getConversationDao();
+
     }
 
     public static DaoUtils getInstance(Context context){
@@ -54,4 +63,39 @@ public class DaoUtils {
         return queryBuilder.list();
     }
 
+    public void insertUser(User user){
+        userDao.insert(user);
+    }
+
+    public void deleteUsers(){
+        userDao.deleteAll();
+    }
+
+    /**
+     * 如果不存在则返回空的List
+     * @param userId user主键objectId
+     * @return user的list列表
+     */
+    public List<User> getUserById(String userId){
+        QueryBuilder queryBuilder = userDao.queryBuilder();
+        queryBuilder.where(UserDao.Properties.ObjectId.eq(userId));
+        queryBuilder.limit(1);
+        return queryBuilder.list();
+    }
+
+    public void insertConversation(Conversation conversation){
+        conversationDao.insert(conversation);
+    }
+
+    /**
+     * 如果不存在则返回空的List
+     * @param conversationId
+     * @return
+     */
+    public List<Conversation> getConversationById(String conversationId){
+        QueryBuilder queryBuilder = conversationDao.queryBuilder();
+        queryBuilder.where(ConversationDao.Properties.ConversationId.eq(conversationId));
+        queryBuilder.limit(1);
+        return queryBuilder.list();
+    }
 }

@@ -6,37 +6,29 @@ package com.bingo.riding.dao;
  */
 public class Conversation {
 
-    private Long id;
     private String conversationId;
     private String name;
     private String members;
     private String creator;
     private String attributes;
     private String lastMessageAt;
+    private Integer unReadNum;
 
     public Conversation() {
     }
 
-    public Conversation(Long id) {
-        this.id = id;
+    public Conversation(String conversationId) {
+        this.conversationId = conversationId;
     }
 
-    public Conversation(Long id, String conversationId, String name, String members, String creator, String attributes, String lastMessageAt) {
-        this.id = id;
+    public Conversation(String conversationId, String name, String members, String creator, String attributes, String lastMessageAt, Integer unReadNum) {
         this.conversationId = conversationId;
         this.name = name;
         this.members = members;
         this.creator = creator;
         this.attributes = attributes;
         this.lastMessageAt = lastMessageAt;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        this.unReadNum = unReadNum;
     }
 
     public String getConversationId() {
@@ -85,6 +77,14 @@ public class Conversation {
 
     public void setLastMessageAt(String lastMessageAt) {
         this.lastMessageAt = lastMessageAt;
+    }
+
+    public Integer getUnReadNum() {
+        return unReadNum;
+    }
+
+    public void setUnReadNum(Integer unReadNum) {
+        this.unReadNum = unReadNum;
     }
 
 }

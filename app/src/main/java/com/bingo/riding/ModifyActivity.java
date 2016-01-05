@@ -1,19 +1,30 @@
 package com.bingo.riding;
 
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bingo.riding.service.PublishMessageService;
+import com.bingo.riding.utils.DataTools;
+import com.bingo.riding.utils.Utils;
 
 public class ModifyActivity extends AppCompatActivity {
 
     private int limit = 0;
     private int request = -1;
+
+    private boolean isSaveAble = false;
 
     private EditText modifyInfo;
     private TextView numberLimit;
@@ -82,6 +93,37 @@ public class ModifyActivity extends AppCompatActivity {
                 }
             });
         }
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_modify_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.activity_modify_save:
+                String modifyContent = modifyInfo.getText().toString().trim();
+                if (modifyContent.length() == 0){
+                    Toast.makeText(this, "请输入内容", Toast.LENGTH_SHORT).show();
+                }else{
+                    if (request == PersonalInfoActivity.REQUEST_EMAIL){
+                        if (Utils.isEmail(modifyContent) == false){
+                            Toast.makeText(this, "请输入有效邮箱地址", Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                    }
+                    Intent intent = new Intent(this, PersonalInfoActivity.class);
+                    intent.putExtra("result_content", modifyContent);
+                    intent.putExtra("request", request);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

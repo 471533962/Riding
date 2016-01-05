@@ -3,17 +3,17 @@ package com.bingo.riding.utils;
 import android.content.Context;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.im.v2.AVIMMessage;
-import com.avos.avoscloud.im.v2.AVIMTypedMessage;
-import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
-import com.bingo.riding.PublishActivity;
 import com.bingo.riding.bean.Discussion;
 import com.bingo.riding.bean.Message;
 import com.bingo.riding.dao.ChatMessage;
+import com.bingo.riding.dao.Conversation;
+import com.bingo.riding.dao.User;
 
 import java.io.File;
 import java.io.IOException;
@@ -88,7 +88,7 @@ public class DataTools {
 
     public static ChatMessage getChatMessageFromAVIMMessage (AVIMMessage avimMessage, boolean isRead){
         ChatMessage chatMessage = new ChatMessage();
-        chatMessage.setContent(JSON.parseObject(avimMessage.getContent()).getString("_lctext"));
+        chatMessage.setContent(JSON.parseObject(JSON.parseObject(avimMessage.getContent()).getString("_lctext")).getString("messageContent"));
         chatMessage.setIoType(avimMessage.getMessageIOType().getIOType());
 
         return chatMessage;
@@ -121,5 +121,37 @@ public class DataTools {
         }
 
         return sb.append("刚刚").toString();
+    }
+
+    public static JSONObject getJSONObjectFromUser(AVUser avUser){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("nikeName", avUser.getString("nikeName"));
+        jsonObject.put("userPhoto", avUser.getAVFile("userPhoto").getUrl());
+        jsonObject.put("objectId", avUser.getObjectId());
+
+        return jsonObject;
+    }
+
+    public static User getUserFromAVUser(AVUser avUser){
+        User user = new User();
+        user.setNikeName(avUser.getString("nikeName"));
+        user.setMessage(avUser.getString("message"));
+        user.setIsMale(avUser.getBoolean("isMale"));
+        user.setObjectId(avUser.getObjectId());
+        AVFile userPhoto = avUser.getAVFile("userPhoto");
+        if (userPhoto != null){
+            user.setUserPhoto(userPhoto.getUrl());
+        }else{
+            user.setUserPhoto(null);
+        }
+
+        return user;
+    }
+
+    public static Conversation getConversationFromAVObject(AVObject conversationObject){
+        Conversation conversation = new Conversation();
+
+
+        return conversation;
     }
 }

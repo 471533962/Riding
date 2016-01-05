@@ -1,5 +1,6 @@
 package com.bingo.riding;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -66,14 +68,19 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
         personalNikeName_textView.setText(avUser.getString("nikeName"));
         personalMessage_textView.setText(avUser.getString("message"));
 
-        Glide.with(getApplicationContext())
-                .load(avUser.getAVFile("userPhoto").getUrl())
-                .signature(new StringSignature(avUser.getAVFile("userPhoto").getUrl()))
-                .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                .placeholder(R.drawable.a0c)
-                .error(R.drawable.default_error)
-                .centerCrop()
-                .into(personalImage_imageView);
+        AVFile userPhoto = avUser.getAVFile("userPhoto");
+        if (userPhoto != null) {
+            Glide.with(getApplicationContext())
+                    .load(userPhoto.getUrl())
+                    .signature(new StringSignature(userPhoto.getUrl()))
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    .placeholder(R.drawable.a0c)
+                    .error(R.drawable.default_error)
+                    .centerCrop()
+                    .into(personalImage_imageView);
+        }else{
+            personalImage_imageView.setImageResource(R.drawable.test_user_pic);
+        }
     }
 
     private void initViewListener(){
@@ -114,13 +121,34 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode){
-            case REQUEST_EMAIL:
-                break;
-            case REQUEST_MESSAGE:
-                break;
-            case REQUEST_NIKENAME:
-                break;
+        if (resultCode == Activity.RESULT_OK){
+            AVUser avUser = AVUser.getCurrentUser();
+            switch (requestCode){
+                case REQUEST_EMAIL:
+                    String email = data.getStringExtra("result_content");
+                    avUser.setEmail(email);
+                    avUser.setFetchWhenSave(true);
+                    avUser.saveInBackground();
+
+                    personalEmail_textView.setText(email);
+                    break;
+                case REQUEST_MESSAGE:
+                    String message = data.getStringExtra("result_content");
+                    avUser.put("message", message);
+                    avUser.setFetchWhenSave(true);
+                    avUser.saveInBackground();
+
+                    personalMessage_textView.setText(message);
+                    break;
+                case REQUEST_NIKENAME:
+                    String nikeName = data.getStringExtra("result_content");
+                    avUser.put("nikeName", nikeName);
+                    avUser.setFetchWhenSave(true);
+                    avUser.saveInBackground();
+
+                    personalNikeName_textView.setText(nikeName);
+                    break;
+            }
         }
     }
 }

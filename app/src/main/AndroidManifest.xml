@@ -79,7 +79,9 @@
             android:name=".ChatActivity"
             android:launchMode="singleInstance"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"/>
         <activity
             android:name=".PersonalIndexActivity"
             android:launchMode="singleInstance"

@@ -3,6 +3,11 @@ package com.bingo.riding.utils;
 import android.content.Context;
 import android.content.Intent;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.LogUtil;
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.AVIMMessage;
@@ -10,6 +15,7 @@ import com.avos.avoscloud.im.v2.AVIMMessageHandler;
 import com.avos.avoscloud.im.v2.AVIMTypedMessage;
 import com.avos.avoscloud.im.v2.AVIMTypedMessageHandler;
 import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
+import com.bingo.riding.ChatActivity;
 import com.bingo.riding.R;
 import com.bingo.riding.event.ImTypeMessageEvent;
 import com.bingo.riding.receiver.NotificationBroadcastReceiver;
@@ -35,6 +41,12 @@ public class MessageHandler extends AVIMMessageHandler{
 
     @Override
     public void onMessage(AVIMMessage message, AVIMConversation conversation, AVIMClient client) {
+        LogUtils.e("Default MessageHandler---Message Content : " + message.toString());
+        if (message == null || message.getMessageId() == null) {
+            LogUtils.d("may be SDK Bug, message or message id is null");
+            return;
+        }
+
         String clientId = "";
         try{
             clientId = AVImClientManager.getInstance().getClientId();
@@ -60,6 +72,8 @@ public class MessageHandler extends AVIMMessageHandler{
      * @param conversation
      */
     private void sendEvent(AVIMMessage message, AVIMConversation conversation) {
+        //把所有的信息存到数据库中
+
         ImTypeMessageEvent event = new ImTypeMessageEvent();
         event.message = message;
         event.conversation = conversation;
@@ -68,12 +82,25 @@ public class MessageHandler extends AVIMMessageHandler{
 
 
     private void sendNotification(AVIMMessage message, AVIMConversation conversation) {
-        String notificationContent = message instanceof AVIMTextMessage ?
-                ((AVIMTextMessage)message).getText() : mContext.getString(R.string.unspport_message_type);
+        try {
+            String notificationContent = message.getContent();
 
-        Intent intent = new Intent(mContext, NotificationBroadcastReceiver.class);
-        intent.putExtra(CONVERSATION_ID, conversation.getConversationId());
-        intent.putExtra(MEMBER_ID, message.getFrom());
-        NotificationUtils.showNotification(mContext, mContext.getString(R.string.application_name), notificationContent, null, intent);
+            LogUtil.avlog.e(notificationContent);
+
+            JSONObject messageObject = JSON.parseObject(notificationContent);
+            String messageContent = messageObject.getString("messageContent");
+            String aa = messageObject.getString("sendUser");
+            AVUser avUser = (AVUser) AVObject.parseAVObject(aa);
+            String sendUserName = avUser.getString("nikeName");
+
+            Intent intent = new Intent(mContext, ChatActivity.class);
+
+            intent.putExtra("user", avUser);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            NotificationUtils.showNotification(mContext, sendUserName, messageContent, null, intent);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

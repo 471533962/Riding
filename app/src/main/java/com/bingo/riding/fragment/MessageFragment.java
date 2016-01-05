@@ -34,17 +34,17 @@ public class MessageFragment extends Fragment {
 
 
     public MessageFragment() {
-        AVIMConversationQuery query = AVImClientManager.getInstance().getClient().getQuery();
-        query.limit(20);
-        query.findInBackground(new AVIMConversationQueryCallback(){
-            @Override
-            public void done(List<AVIMConversation> convs, AVIMException e){
-                if(e==null){
-                    //convs就是获取到的conversation列表
-                    //注意：按每个对话的最后更新日期（收到最后一条消息的时间）倒序排列
-                }
-            }
-        });
+//        AVIMConversationQuery query = AVImClientManager.getInstance().getClient().getQuery();
+//        query.limit(20);
+//        query.findInBackground(new AVIMConversationQueryCallback(){
+//            @Override
+//            public void done(List<AVIMConversation> convs, AVIMException e){
+//                if(e==null){
+//                    //convs就是获取到的conversation列表
+//                    //注意：按每个对话的最后更新日期（收到最后一条消息的时间）倒序排列
+//                }
+//            }
+//        });
     }
 
     @Override

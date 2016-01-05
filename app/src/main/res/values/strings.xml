@@ -18,11 +18,28 @@
     <string name="title_activity_settings">Settings</string>
 
     <string name="publish">发布</string>
-
+    <string name="save">保存</string>
 
     <string name="unspport_message_type">暂不支持此消息类型</string>
     <string name="message_is_null">消息不能为空</string>
     <!-- Strings related to Settings -->
+
+    <string name="contact_search">搜索</string>
+    <string name="profile_vibrate">震动</string>
+    <string name="contact_chat">发起会话</string>
+    <string name="contact_add_friend">添加好友</string>
+    <string name="contact_new_friends">新朋友</string>
+    <string name="contact_deleteFriendRequest">删除好友请求</string>
+    <string name="contact_agreed">已同意</string>
+    <string name="contact_deleteContact">删除联系人</string>
+    <string name="common_sure">确定</string>
+    <string name="contact_deleteSucceed">删除成功</string>
+    <string name="contact_findFriends">查找好友</string>
+    <string name="contact_add">添加</string>
+    <string name="contact_sendRequestSucceed">发送请求成功，等待对方验证</string>
+
+    <string name="push_add_request">您有新的好友申请</string>
+    <string name="message_when_agree_request">我们已经是好友了，来聊天吧</string>
 
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>

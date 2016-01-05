@@ -9,21 +9,23 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 
+import com.alibaba.fastjson.JSONObject;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.AVIMException;
 import com.avos.avoscloud.im.v2.AVIMMessage;
 import com.avos.avoscloud.im.v2.AVIMMessageManager;
+import com.avos.avoscloud.im.v2.AVIMTypedMessage;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
-import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.bingo.riding.adapter.ChatMessageListAdapter;
 import com.bingo.riding.dao.ChatMessage;
-import com.bingo.riding.event.ImTypeMessageEvent;
+import com.bingo.riding.dao.User;
 import com.bingo.riding.event.InputBottomBarTextEvent;
 import com.bingo.riding.utils.AVImClientManager;
 import com.bingo.riding.utils.ChatMessageHandler;
+import com.bingo.riding.utils.Constants;
 import com.bingo.riding.utils.DaoUtils;
 import com.bingo.riding.utils.DataTools;
 
@@ -42,13 +44,15 @@ public class ChatActivity extends AppCompatActivity implements SwipeRefreshLayou
     private LinearLayoutManager layoutManager;
 
     private DaoUtils daoUtils;
-    private AVUser avUser;
     private AVIMConversation avimConversation;
     private ChatMessageHandler chatMessageHandler;
 
     private List<ChatMessage> chatMessageList = new ArrayList<>();
     private ChatMessageListAdapter chatMessageListAdapter;
     private HashMap<String, String> userPic = new HashMap<>();
+
+    private String memberId;
+    private User chatUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +61,16 @@ public class ChatActivity extends AppCompatActivity implements SwipeRefreshLayou
         EventBus.getDefault().register(this);
 
         Intent intent = getIntent();
-        avUser = intent.getParcelableExtra("user");
+        memberId = intent.getStringExtra(Constants.MEMBER_ID);
 
         daoUtils = DaoUtils.getInstance(getApplicationContext());
+        List<User> userList = daoUtils.getUserById(memberId);
+        if (userList.isEmpty() == false){
+            chatUser = userList.get(0);
+        }else {
+            //怎么可能是空呢？
+            finish();
+        }
 
         init();
         initView();
@@ -69,14 +80,14 @@ public class ChatActivity extends AppCompatActivity implements SwipeRefreshLayou
     protected void onResume() {
         super.onResume();
 
-        AVIMMessageManager.registerMessageHandler(AVIMMessage.class, chatMessageHandler);
+        AVIMMessageManager.registerMessageHandler(AVIMTypedMessage.class, chatMessageHandler);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 
-        AVIMMessageManager.unregisterMessageHandler(AVIMMessage.class, chatMessageHandler);
+        AVIMMessageManager.unregisterMessageHandler(AVIMTypedMessage.class, chatMessageHandler);
     }
 
     @Override
@@ -87,8 +98,9 @@ public class ChatActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     private void init(){
-        userPic.put(ChatMessageListAdapter.OTHER_USER_PIC, avUser.getAVFile("userPhoto").getUrl());
-        userPic.put(ChatMessageListAdapter.SELF_USER_PIC, AVUser.getCurrentUser().getAVFile("userPhoto").getUrl());
+        userPic.put(ChatMessageListAdapter.OTHER_USER_PIC, chatUser.getUserPhoto());
+
+        userPic.put(ChatMessageListAdapter.SELF_USER_PIC, AVUser.getCurrentUser().getAVFile("userPhoto") != null ? AVUser.getCurrentUser().getAVFile("userPhoto").getUrl() : null);
 
         chatMessageHandler = new ChatMessageHandler(avimConversation, this, this);
 
@@ -96,7 +108,7 @@ public class ChatActivity extends AppCompatActivity implements SwipeRefreshLayou
                 .getInstance()
                 .getClient()
                 .createConversation(
-                        Arrays.asList(avUser.getObjectId()),
+                        Arrays.asList(memberId),
                         "",
                         null,
                         false,
@@ -121,7 +133,7 @@ public class ChatActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     private void initView() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(avUser.getString("nikeName"));
+        toolbar.setTitle(chatUser.getNikeName());
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -157,8 +169,13 @@ public class ChatActivity extends AppCompatActivity implements SwipeRefreshLayou
     public void onEvent(InputBottomBarTextEvent textEvent) {
         if (null != avimConversation && null != textEvent) {
             if (!TextUtils.isEmpty(textEvent.sendContent) && avimConversation.getConversationId().equals(textEvent.tag)) {
-                final AVIMTextMessage message = new AVIMTextMessage();
-                message.setText(textEvent.sendContent);
+                final AVIMMessage message = new AVIMMessage();
+
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("messageContent", textEvent.sendContent);
+                jsonObject.put("sendUser", AVUser.getCurrentUser().toString());
+
+                message.setContent(jsonObject.toJSONString());
                 final ChatMessage chatMessage = new ChatMessage();
                 chatMessage.setContent(textEvent.sendContent);
                 chatMessage.setIoType(AVIMMessage.AVIMMessageIOType.AVIMMessageIOTypeOut.getIOType());

@@ -25,6 +25,10 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.bingo.riding.R;
 
+import net.sourceforge.pinyin4j.PinyinHelper;
+import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
+import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
+
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -61,7 +65,6 @@ public class Utils {
      *
      * @param activity
      * @param cls
-     * @param name
      */
     public static void startActivity(Activity activity, Class<?> cls) {
         Intent intent = new Intent();
@@ -395,6 +398,54 @@ public class Utils {
         ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());// 把压缩后的数据baos存放到ByteArrayInputStream中
         Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);// 把ByteArrayInputStream数据生成图片
         return bitmap;
+    }
+
+
+    private static HanyuPinyinOutputFormat spellFormat; // 转换汉字得到其汉语拼音
+
+    /**
+     * 使用PinYin4j.jar将汉字转换为拼音
+     *
+     * @param chineseStr
+     * @return
+     */
+    public static String chineneToSpell(String chineseStr){
+        if (isChinese(chineseStr)) {
+            try {
+                String pinying = PinyinHelper.toHanyuPinyinString(chineseStr, spellFormat, "");
+                return pinying.toUpperCase();
+            }catch (BadHanyuPinyinOutputFormatCombination e){
+                e.printStackTrace();
+                return chineseStr.toUpperCase();
+            }
+        }
+        return chineseStr.toUpperCase();
+    }
+
+    /**
+     * 判断字符串中是否包含有中文
+     *
+     * @param str
+     * @return
+     */
+    public static boolean isChinese(String str) {
+        String regex = "[\\u4e00-\\u9fa5]";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(str);
+        return matcher.find();
+    }
+
+    /**
+     * 判断是否是a-z
+     *
+     * @param str
+     * @return
+     */
+    public static boolean isA2Z(String str) {
+        String regex = "[A-Za-z]";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(str);
+        return matcher.find();
     }
 
 }

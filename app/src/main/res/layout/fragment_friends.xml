@@ -2,10 +2,78 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.bingo.riding.fragment.FriendsFragment">
 
-    <android.support.v7.widget.RecyclerView
+    <LinearLayout
+        android:id="@+id/layout_new"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:background="@drawable/linear_bg_selector"
+        android:orientation="horizontal">
 
+        <FrameLayout
+            android:id="@+id/frame_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="50.0dip"
+                android:layout_height="50.0dip"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="6.0dip"
+                android:padding="5dp"
+                android:src="@drawable/contact_new_friends_icon" />
+
+            <ImageView
+                android:id="@+id/iv_msg_tips"
+                android:layout_width="@dimen/tip_icon_size"
+                android:layout_height="@dimen/tip_icon_size"
+                android:layout_gravity="top|right"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/common_msg_tips"
+                android:visibility="invisible" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tv_new_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/chat_base_color_text_black"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1.0"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:text="@string/contact_new_friends"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+
+    <View
+        android:id="@+id/group_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/base_line_width_1"
+        android:layout_below="@id/layout_new"
+        android:background="@drawable/base_horizontal_line"></View>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/friends_list"
+            android:scrollbars="vertical"
+            android:clipToPadding="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <com.bingo.riding.ui.LetterView
+            android:id="@+id/friends_letter_view"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
 </LinearLayout>
