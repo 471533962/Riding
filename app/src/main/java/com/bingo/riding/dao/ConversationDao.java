@@ -29,7 +29,7 @@ public class ConversationDao extends AbstractDao<Conversation, String> {
         public final static Property Creator = new Property(3, String.class, "creator", false, "CREATOR");
         public final static Property Attributes = new Property(4, String.class, "attributes", false, "ATTRIBUTES");
         public final static Property LastMessageAt = new Property(5, String.class, "lastMessageAt", false, "LAST_MESSAGE_AT");
-        public final static Property UnReadNum = new Property(6, Integer.class, "unReadNum", false, "UN_READ_NUM");
+        public final static Property UnReadNum = new Property(6, Long.class, "unReadNum", false, "UN_READ_NUM");
     };
 
 
@@ -95,7 +95,7 @@ public class ConversationDao extends AbstractDao<Conversation, String> {
             stmt.bindString(6, lastMessageAt);
         }
  
-        Integer unReadNum = entity.getUnReadNum();
+        Long unReadNum = entity.getUnReadNum();
         if (unReadNum != null) {
             stmt.bindLong(7, unReadNum);
         }
@@ -117,7 +117,7 @@ public class ConversationDao extends AbstractDao<Conversation, String> {
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // creator
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // attributes
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // lastMessageAt
-            cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6) // unReadNum
+            cursor.isNull(offset + 6) ? null : cursor.getLong(offset + 6) // unReadNum
         );
         return entity;
     }
@@ -131,7 +131,7 @@ public class ConversationDao extends AbstractDao<Conversation, String> {
         entity.setCreator(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setAttributes(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setLastMessageAt(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setUnReadNum(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
+        entity.setUnReadNum(cursor.isNull(offset + 6) ? null : cursor.getLong(offset + 6));
      }
     
     /** @inheritdoc */

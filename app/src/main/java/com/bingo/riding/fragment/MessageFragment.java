@@ -1,50 +1,43 @@
 package com.bingo.riding.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
-import com.avos.avoscloud.im.v2.AVIMConversation;
-import com.avos.avoscloud.im.v2.AVIMConversationQuery;
-import com.avos.avoscloud.im.v2.AVIMException;
-import com.avos.avoscloud.im.v2.Conversation;
-import com.avos.avoscloud.im.v2.callback.AVIMConversationQueryCallback;
+import com.bingo.riding.ChatActivity;
 import com.bingo.riding.R;
+import com.bingo.riding.adapter.ConversationListAdapter;
 import com.bingo.riding.adapter.PersonalMessageAdapter;
 import com.bingo.riding.dao.ChatMessage;
-import com.bingo.riding.utils.AVImClientManager;
+import com.bingo.riding.dao.Conversation;
+import com.bingo.riding.event.ConversationItemClickEvent;
+import com.bingo.riding.utils.Constants;
 import com.bingo.riding.utils.DaoUtils;
+import com.bingo.riding.utils.DividerItemDecoration;
 
-import java.util.HashMap;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 public class MessageFragment extends Fragment {
 
     private View view;
-    private ListView fragment_message_message_list;
+    private RecyclerView fragment_message_message_list;
 
     private DaoUtils daoUtils;
-    private HashMap<Conversation, ChatMessage> conversationChatMessageHashMap = new HashMap<>();
-    private PersonalMessageAdapter personalMessageAdapter;
+    private List<Conversation> conversationList;
+    private ConversationListAdapter conversationListAdapter;
 
 
     public MessageFragment() {
-//        AVIMConversationQuery query = AVImClientManager.getInstance().getClient().getQuery();
-//        query.limit(20);
-//        query.findInBackground(new AVIMConversationQueryCallback(){
-//            @Override
-//            public void done(List<AVIMConversation> convs, AVIMException e){
-//                if(e==null){
-//                    //convs就是获取到的conversation列表
-//                    //注意：按每个对话的最后更新日期（收到最后一条消息的时间）倒序排列
-//                }
-//            }
-//        });
+
     }
 
     @Override
@@ -65,12 +58,36 @@ public class MessageFragment extends Fragment {
         return view;
     }
 
-    private void init(){
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        EventBus.getDefault().unregister(this);
+    }
+
+    private void init(){
+        conversationList = daoUtils.getAllConversations();
     }
 
     private void initView(){
-        fragment_message_message_list = (ListView) view.findViewById(R.id.fragment_message_message_list);
-        personalMessageAdapter = new PersonalMessageAdapter();
+        fragment_message_message_list = (RecyclerView) view.findViewById(R.id.fragment_message_message_list);
+        fragment_message_message_list.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        conversationListAdapter = new ConversationListAdapter(conversationList);
+        fragment_message_message_list.setAdapter(conversationListAdapter);
+        fragment_message_message_list.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL_LIST));
+    }
+
+    public void onEvent(ConversationItemClickEvent event) {
+        Intent intent = new Intent(getActivity(), ChatActivity.class);
+        intent.putExtra(Constants.MEMBER_ID, event.memberId);
+        startActivity(intent);
     }
 }

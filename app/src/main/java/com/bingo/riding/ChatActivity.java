@@ -8,7 +8,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.MenuItem;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.im.v2.AVIMClient;
@@ -19,6 +21,7 @@ import com.avos.avoscloud.im.v2.AVIMMessageManager;
 import com.avos.avoscloud.im.v2.AVIMTypedMessage;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
+import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.bingo.riding.adapter.ChatMessageListAdapter;
 import com.bingo.riding.dao.ChatMessage;
 import com.bingo.riding.dao.User;
@@ -99,10 +102,9 @@ public class ChatActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     private void init(){
         userPic.put(ChatMessageListAdapter.OTHER_USER_PIC, chatUser.getUserPhoto());
-
         userPic.put(ChatMessageListAdapter.SELF_USER_PIC, AVUser.getCurrentUser().getAVFile("userPhoto") != null ? AVUser.getCurrentUser().getAVFile("userPhoto").getUrl() : null);
 
-        chatMessageHandler = new ChatMessageHandler(avimConversation, this, this);
+        chatMessageHandler = new ChatMessageHandler(this, this);
 
         AVImClientManager
                 .getInstance()
@@ -121,11 +123,16 @@ public class ChatActivity extends AppCompatActivity implements SwipeRefreshLayou
                                     finish();
                                     return;
                                 } else {
+                                    chatMessageHandler.setAvimConversation(avimConversation);
+                                    //对话创建成功，加入数据库中
+                                    daoUtils.insertConversation(DataTools.getConversationFromAVIMConversation(avimConversation));
+
                                     ChatActivity.this.avimConversation = avimConversation;
                                     chatMessageList.addAll(DaoUtils
                                             .getInstance(getApplicationContext())
                                             .getMessagesAccordingToConversationId(avimConversation.getConversationId()));
                                     chatMessageListAdapter.notifyDataSetChanged();
+                                    scrollToBottom();
                                 }
                             }
                         });
@@ -156,8 +163,8 @@ public class ChatActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     @Override
-    public void onChatMessage(AVIMMessage message, AVIMConversation conversation, AVIMClient client) {
-        chatMessageList.add(DataTools.getChatMessageFromAVIMMessage(message, true));
+    public void onChatMessage(AVIMTextMessage message, AVIMConversation conversation, AVIMClient client) {
+        chatMessageList.add(DataTools.getChatMessageFromAVIMTextMessage(message, true));
         chatMessageListAdapter.notifyDataSetChanged();
         scrollToBottom();
     }
@@ -169,13 +176,13 @@ public class ChatActivity extends AppCompatActivity implements SwipeRefreshLayou
     public void onEvent(InputBottomBarTextEvent textEvent) {
         if (null != avimConversation && null != textEvent) {
             if (!TextUtils.isEmpty(textEvent.sendContent) && avimConversation.getConversationId().equals(textEvent.tag)) {
-                final AVIMMessage message = new AVIMMessage();
+                final AVIMTextMessage message = new AVIMTextMessage();
 
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("messageContent", textEvent.sendContent);
-                jsonObject.put("sendUser", AVUser.getCurrentUser().toString());
+                jsonObject.put("sendUser", JSON.toJSONString(AVUser.getCurrentUser()));
 
-                message.setContent(jsonObject.toJSONString());
+                message.setText(jsonObject.toJSONString());
                 final ChatMessage chatMessage = new ChatMessage();
                 chatMessage.setContent(textEvent.sendContent);
                 chatMessage.setIoType(AVIMMessage.AVIMMessageIOType.AVIMMessageIOTypeOut.getIOType());
@@ -187,6 +194,7 @@ public class ChatActivity extends AppCompatActivity implements SwipeRefreshLayou
                     @Override
                     public void done(AVIMException e) {
                         chatMessageListAdapter.notifyDataSetChanged();
+                        scrollToBottom();
                     }
                 });
             }
@@ -199,5 +207,16 @@ public class ChatActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     public String getConversationId(){
         return avimConversation.getConversationId();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

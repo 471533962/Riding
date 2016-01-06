@@ -3,12 +3,16 @@ package com.bingo.riding.utils;
 import android.content.Context;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.AVIMMessage;
+import com.avos.avoscloud.im.v2.AVIMTypedMessage;
+import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.bingo.riding.bean.Discussion;
 import com.bingo.riding.bean.Message;
 import com.bingo.riding.dao.ChatMessage;
@@ -86,10 +90,50 @@ public class DataTools {
         return discussion;
     }
 
+    public static ChatMessage getChatMessageFromAVIMTextMessage(AVIMTextMessage avimTextMessage, boolean isRead){
+        ChatMessage chatMessage = new ChatMessage();
+        JSONObject jsonObject = JSON.parseObject(avimTextMessage.getText());
+
+        chatMessage.setContent(jsonObject.getString("messageContent"));
+        chatMessage.setConversationId(avimTextMessage.getConversationId());
+        chatMessage.setTimestamp(avimTextMessage.getTimestamp());
+        chatMessage.setStatus(avimTextMessage.getMessageStatus().getStatusCode());
+        chatMessage.setMessageId(avimTextMessage.getMessageId());
+        chatMessage.setReceiptTimestamp(avimTextMessage.getReceiptTimestamp());
+        chatMessage.setIoType(avimTextMessage.getMessageIOType().getIOType());
+        chatMessage.setIsRead(isRead);
+
+        return chatMessage;
+    }
+
     public static ChatMessage getChatMessageFromAVIMMessage (AVIMMessage avimMessage, boolean isRead){
         ChatMessage chatMessage = new ChatMessage();
-        chatMessage.setContent(JSON.parseObject(JSON.parseObject(avimMessage.getContent()).getString("_lctext")).getString("messageContent"));
+        JSONObject jsonObject = JSON.parseObject(avimMessage.getContent());
+
+        chatMessage.setContent(jsonObject.getString("messageContent"));
+        chatMessage.setConversationId(avimMessage.getConversationId());
+        chatMessage.setTimestamp(avimMessage.getTimestamp());
+        chatMessage.setStatus(avimMessage.getMessageStatus().getStatusCode());
+        chatMessage.setMessageId(avimMessage.getMessageId());
+        chatMessage.setReceiptTimestamp(avimMessage.getReceiptTimestamp());
         chatMessage.setIoType(avimMessage.getMessageIOType().getIOType());
+        chatMessage.setIsRead(isRead);
+
+        return chatMessage;
+    }
+
+    public static ChatMessage getChatMessageFromAVIMTypedMessage (AVIMTypedMessage avimMessage, boolean isRead){
+        ChatMessage chatMessage = new ChatMessage();
+        JSONObject jsonObject = JSON.parseObject(avimMessage.getContent());
+
+        chatMessage.setContent(jsonObject.getString("messageContent"));
+        chatMessage.setConversationId(avimMessage.getConversationId());
+        chatMessage.setTimestamp(avimMessage.getTimestamp());
+        chatMessage.setStatus(avimMessage.getMessageStatus().getStatusCode());
+        chatMessage.setMessageId(avimMessage.getMessageId());
+        chatMessage.setReceiptTimestamp(avimMessage.getReceiptTimestamp());
+        chatMessage.setIoType(avimMessage.getMessageIOType().getIOType());
+        chatMessage.setIsRead(isRead);
 
         return chatMessage;
     }
@@ -148,9 +192,19 @@ public class DataTools {
         return user;
     }
 
-    public static Conversation getConversationFromAVObject(AVObject conversationObject){
+    public static Conversation getConversationFromAVIMConversation(AVIMConversation avimConversation){
         Conversation conversation = new Conversation();
 
+        conversation.setConversationId(avimConversation.getConversationId());
+        conversation.setName(avimConversation.getName());
+        conversation.setCreator(avimConversation.getCreator());
+
+        JSONArray memberArray = new JSONArray();
+        for (String user: avimConversation.getMembers()) {
+            memberArray.add(user);
+        }
+        conversation.setMembers(memberArray.toJSONString());
+        conversation.setUnReadNum(Long.getLong("0"));
 
         return conversation;
     }

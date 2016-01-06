@@ -5,4 +5,5 @@ package com.bingo.riding.utils;
  */
 public class Constants {
     public static String MEMBER_ID = "member_id";
+    public static String CONVERSATION_ID = "conversation_id";
 }

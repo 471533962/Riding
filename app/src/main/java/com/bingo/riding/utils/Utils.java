@@ -23,7 +23,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.bingo.riding.R;
+import com.bingo.riding.dao.Conversation;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
@@ -446,6 +449,18 @@ public class Utils {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(str);
         return matcher.find();
+    }
+
+    public static String otherIdOfConversation(Conversation conversation){
+        JSONArray memberArray = JSON.parseArray(conversation.getMembers());
+        if (memberArray.size() == 2){
+            if (memberArray.getString(0).equals(AVImClientManager.getInstance().getClientId())){
+                return memberArray.getString(1);
+            }else{
+                return memberArray.getString(0);
+            }
+        }
+        return null;
     }
 
 }

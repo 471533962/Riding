@@ -17,6 +17,7 @@ import com.avos.avoscloud.im.v2.AVIMTypedMessageHandler;
 import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.bingo.riding.ChatActivity;
 import com.bingo.riding.R;
+import com.bingo.riding.dao.Conversation;
 import com.bingo.riding.event.ImTypeMessageEvent;
 import com.bingo.riding.receiver.NotificationBroadcastReceiver;
 
@@ -41,9 +42,9 @@ public class MessageHandler extends AVIMMessageHandler{
 
     @Override
     public void onMessage(AVIMMessage message, AVIMConversation conversation, AVIMClient client) {
-        LogUtils.e("Default MessageHandler---Message Content : " + message.toString());
+        LogUtil.log.e("Default MessageHandler---Message Content : " + message.toString());
         if (message == null || message.getMessageId() == null) {
-            LogUtils.d("may be SDK Bug, message or message id is null");
+            LogUtil.log.e("may be SDK Bug, message or message id is null");
             return;
         }
 
@@ -52,9 +53,10 @@ public class MessageHandler extends AVIMMessageHandler{
             clientId = AVImClientManager.getInstance().getClientId();
             if (client.getClientId().equals(clientId)){
                 if (!message.getFrom().equals(clientId)){
-                    sendEvent(message, conversation);
+                    AVIMTextMessage avimTextMessage = (AVIMTextMessage) message;
+                    sendEvent(avimTextMessage, conversation);
                     if (NotificationUtils.isShowNotification(conversation.getConversationId())){
-                        sendNotification(message, conversation);
+                        sendNotification(avimTextMessage, conversation);
                     }
                 }
             } else {
@@ -65,27 +67,39 @@ public class MessageHandler extends AVIMMessageHandler{
         }
     }
 
-    /**
-     * 因为没有 db，所以暂时先把消息广播出去，由接收方自己处理
-     * 稍后应该加入 db
-     * @param message
-     * @param conversation
-     */
-    private void sendEvent(AVIMMessage message, AVIMConversation conversation) {
+    private void sendEvent(AVIMTextMessage message, AVIMConversation conversation) {
         //把所有的信息存到数据库中
+        saveToDB(message, conversation);
 
+        //发送事物
         ImTypeMessageEvent event = new ImTypeMessageEvent();
         event.message = message;
         event.conversation = conversation;
         EventBus.getDefault().post(event);
     }
 
+    private void saveToDB(AVIMTextMessage message, AVIMConversation conversation){
+        daoUtils.insertChatMessage(DataTools.getChatMessageFromAVIMTextMessage(message, false));
 
-    private void sendNotification(AVIMMessage message, AVIMConversation conversation) {
+        Conversation insertConversation = DataTools.getConversationFromAVIMConversation(conversation);
+        insertConversation.setUnReadNum(daoUtils.getUnreadChatMessageNumber(conversation.getConversationId()));
+        daoUtils.insertConversation(insertConversation);
+
+        JSONObject jsonObject = JSON.parseObject(message.getText());
         try {
-            String notificationContent = message.getContent();
+            AVUser avUser = (AVUser) AVUser.parseAVObject(jsonObject.getString("sendUser"));
+            daoUtils.insertUser(DataTools.getUserFromAVUser(avUser));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
-            LogUtil.avlog.e(notificationContent);
+
+    private void sendNotification(AVIMTextMessage message, AVIMConversation conversation) {
+        try {
+            String notificationContent = message.getText();
+
+            LogUtil.log.e(notificationContent);
 
             JSONObject messageObject = JSON.parseObject(notificationContent);
             String messageContent = messageObject.getString("messageContent");

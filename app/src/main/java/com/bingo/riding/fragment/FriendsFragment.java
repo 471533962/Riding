@@ -56,8 +56,6 @@ public class FriendsFragment extends Fragment implements OnLetterViewClickListen
         super.onCreate(savedInstanceState);
 
         daoUtils = DaoUtils.getInstance(getActivity().getApplicationContext());
-
-        daoUtils.deleteUsers();
     }
 
     @Override
