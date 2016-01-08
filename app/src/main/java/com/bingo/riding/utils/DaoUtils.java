@@ -57,7 +57,7 @@ public class DaoUtils {
 
     public List<ChatMessage> getMessagesAccordingToConversationId(String conversationId){
         QueryBuilder queryBuilder = chatMessageDao.queryBuilder();
-        queryBuilder.orderAsc(ChatMessageDao.Properties.Timestamp);
+        queryBuilder.orderDesc(ChatMessageDao.Properties.Timestamp);
         queryBuilder.limit(20);
         queryBuilder.where(ChatMessageDao.Properties.ConversationId.eq(conversationId));
         return queryBuilder.list();
@@ -69,6 +69,14 @@ public class DaoUtils {
 
     public void deleteUsers(){
         userDao.deleteAll();
+    }
+
+    public void deleteChatMessages(){
+        chatMessageDao.deleteAll();
+    }
+
+    public void deleteConversations(){
+        conversationDao.deleteAll();
     }
 
     /**
@@ -120,5 +128,15 @@ public class DaoUtils {
         QueryBuilder chatMessageQueryBuilder = chatMessageDao.queryBuilder();
         chatMessageQueryBuilder.where(ChatMessageDao.Properties.ConversationId.eq(conversationId));
         return chatMessageQueryBuilder.count();
+    }
+
+    public void updateConversationChatMessage(String conversationId){
+        QueryBuilder chatMessageQueryBuilder = chatMessageDao.queryBuilder();
+        chatMessageQueryBuilder.where(ChatMessageDao.Properties.ConversationId.eq(conversationId));
+        chatMessageQueryBuilder.where(ChatMessageDao.Properties.IsRead.eq(false));
+        for (ChatMessage chatmessage: (List<ChatMessage>)chatMessageQueryBuilder.list()) {
+            chatmessage.setIsRead(true);
+            chatMessageDao.update(chatmessage);
+        }
     }
 }

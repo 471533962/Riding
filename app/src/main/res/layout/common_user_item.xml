@@ -30,7 +30,7 @@
             android:layout_centerVertical="true"
             android:layout_height="600dp"
             android:layout_width="60dp"
-            android:src="@drawable/test_user_pic" />
+            android:src="@drawable/default_photo" />
 
         <TextView
             android:id="@+id/tv_friend_name"

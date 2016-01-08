@@ -18,7 +18,7 @@
             android:id="@+id/conversation_item_iv_avatar"
             android:layout_height="50dp"
             android:layout_width="50dp"
-            android:src="@drawable/test_user_pic"
+            android:src="@drawable/default_photo"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"/>
 

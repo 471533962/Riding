@@ -79,7 +79,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
                     .centerCrop()
                     .into(personalImage_imageView);
         }else{
-            personalImage_imageView.setImageResource(R.drawable.test_user_pic);
+            personalImage_imageView.setImageResource(R.drawable.default_photo);
         }
     }
 

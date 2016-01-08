@@ -137,6 +137,18 @@
 
         </RelativeLayout>
 
+        <Button
+            android:id="@+id/logout"
+            android:text="退出"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:background="@drawable/login_btn_bg"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
 </ScrollView>

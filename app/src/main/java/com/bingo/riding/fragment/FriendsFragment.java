@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import com.avos.avoscloud.AVRelation;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
 import com.bingo.riding.ChatActivity;
+import com.bingo.riding.CustomActivity;
 import com.bingo.riding.R;
 import com.bingo.riding.adapter.FriendsListAdapter;
 import com.bingo.riding.dao.User;

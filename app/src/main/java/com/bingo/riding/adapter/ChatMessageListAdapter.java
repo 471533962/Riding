@@ -79,11 +79,9 @@ public class ChatMessageListAdapter extends RecyclerView.Adapter<ChatMessageList
                         .diskCacheStrategy(DiskCacheStrategy.RESULT)
                         .placeholder(R.drawable.a0c)
                         .error(R.drawable.default_error)
-                        .override(150, 150)
-                        .centerCrop()
                         .into(holder.chat_item_me_pic);
             }else{
-                holder.chat_item_me_pic.setImageResource(R.drawable.test_user_pic);
+                holder.chat_item_me_pic.setImageResource(R.drawable.default_photo);
             }
 
             holder.chat_item_me_pic.setVisibility(View.VISIBLE);
@@ -100,11 +98,9 @@ public class ChatMessageListAdapter extends RecyclerView.Adapter<ChatMessageList
                         .diskCacheStrategy(DiskCacheStrategy.RESULT)
                         .placeholder(R.drawable.a0c)
                         .error(R.drawable.default_error)
-                        .override(150, 150)
-                        .centerCrop()
                         .into(holder.chat_item_user_pic);
             }else{
-                holder.chat_item_user_pic.setImageResource(R.drawable.test_user_pic);
+                holder.chat_item_user_pic.setImageResource(R.drawable.default_photo);
             }
 
             holder.chat_item_me_pic.setVisibility(View.GONE);

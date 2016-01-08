@@ -34,6 +34,7 @@ import com.bingo.riding.utils.DataTools;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -128,11 +129,13 @@ public class ChatActivity extends AppCompatActivity implements SwipeRefreshLayou
                                     daoUtils.insertConversation(DataTools.getConversationFromAVIMConversation(avimConversation));
 
                                     ChatActivity.this.avimConversation = avimConversation;
-                                    chatMessageList.addAll(DaoUtils
-                                            .getInstance(getApplicationContext())
-                                            .getMessagesAccordingToConversationId(avimConversation.getConversationId()));
+                                    chatMessageList.addAll(daoUtils.getMessagesAccordingToConversationId(avimConversation.getConversationId()));
+                                    Collections.reverse(chatMessageList);
                                     chatMessageListAdapter.notifyDataSetChanged();
                                     scrollToBottom();
+
+                                    //把conversation的未读消息归零，并把所有的消息标志为已读
+                                    daoUtils.updateConversationChatMessage(avimConversation.getConversationId());
                                 }
                             }
                         });

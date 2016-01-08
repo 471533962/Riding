@@ -10,7 +10,7 @@
         
         <ImageView
 	        android:id="@+id/personal_lettle_user_pic"
-	        android:src="@drawable/test_user_pic"
+	        android:src="@drawable/default_photo"
 	        android:layout_margin="5dp"
 	        android:layout_height="wrap_content"
 	        android:layout_width="wrap_content"/>
