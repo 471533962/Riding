@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/Users/bingo/AndroidStudioWorkspace/Riding/androidtouchgallery/build/intermediates/res/merged/release/drawable-hdpi-v4/no_photo.png",
+        "source": "/Users/bingo/AndroidStudioWorkspace/Riding/androidtouchgallery/src/main/res/drawable-hdpi/no_photo.png"
+    },
+    {
+        "merged": "/Users/bingo/AndroidStudioWorkspace/Riding/androidtouchgallery/build/intermediates/res/merged/release/drawable-hdpi-v4/ic_launcher.png",
+        "source": "/Users/bingo/AndroidStudioWorkspace/Riding/androidtouchgallery/src/main/res/drawable-hdpi/ic_launcher.png"
+    }
+]
