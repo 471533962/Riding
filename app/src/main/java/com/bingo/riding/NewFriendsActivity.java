@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
@@ -22,6 +23,7 @@ import java.util.List;
  */
 public class NewFriendsActivity extends AppCompatActivity {
 
+    private Toolbar toolbar;
     private RecyclerView new_friends_list;
     private LinearLayoutManager linearLayoutManager;
 
@@ -58,11 +60,15 @@ public class NewFriendsActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        new_friends_list = (RecyclerView) findViewById(R.id.new_friends_list);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("新朋友");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        new_friends_list = (RecyclerView) findViewById(R.id.new_friends_list);
         linearLayoutManager = new LinearLayoutManager(this);
         new_friends_list.setLayoutManager(linearLayoutManager);
-
         addFriendsRequestList = new ArrayList<>();
         newFriendsListAdapter = new NewFriendsListAdapter(addFriendsRequestList);
         new_friends_list.setAdapter(newFriendsListAdapter);

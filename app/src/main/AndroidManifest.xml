@@ -82,10 +82,37 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:taskAffinity=""
             android:excludeFromRecents="true"/>
+
         <activity
             android:name=".PersonalIndexActivity"
             android:launchMode="singleInstance"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <meta-data
+            android:name="android.app.default_searchable"
+            android:value="com.bingo.riding.SearchFriendsActivity" />
+
+        <activity
+            android:name=".SearchFriendsActivity"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/friends_searchable" />
+
+        </activity>
+
+        <activity
+            android:name=".NewFriendsActivity"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <!-- 实时通信模块、推送（若使用该功能，需添加以下声明）START -->
         <service

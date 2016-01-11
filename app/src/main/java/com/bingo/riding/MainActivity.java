@@ -4,11 +4,13 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.SharedElementCallback;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,7 +36,7 @@ import com.bumptech.glide.signature.StringSignature;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    private long mPressedTime = 0;
     private FragmentManager fragmentManager;
 
     private SquareFragment squareFragment;
@@ -140,6 +142,26 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            exitDoubleClick();
+        }
+        return false;
+    }
+
+    private void exitDoubleClick(){
+        long mNowTime = System.currentTimeMillis();//获取第一次按键时间
+        if((mNowTime - mPressedTime) > 2000){//比较两次按键时间差
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            mPressedTime = mNowTime;
+        }
+        else{//退出程序
+            this.finish();
+            System.exit(0);
+        }
     }
 
     private void initView(){

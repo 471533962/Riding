@@ -1,13 +1,19 @@
 package com.bingo.riding.fragment;
 
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,7 +27,10 @@ import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
 import com.bingo.riding.ChatActivity;
 import com.bingo.riding.CustomActivity;
+import com.bingo.riding.MainActivity;
+import com.bingo.riding.NewFriendsActivity;
 import com.bingo.riding.R;
+import com.bingo.riding.SearchFriendsActivity;
 import com.bingo.riding.adapter.FriendsListAdapter;
 import com.bingo.riding.dao.User;
 import com.bingo.riding.event.FriendItemClickEvent;
@@ -50,13 +59,13 @@ public class FriendsFragment extends Fragment implements OnLetterViewClickListen
     private LinearLayoutManager linearLayoutManager;
 
     private List<User> userList = new ArrayList<>();
-
     private DaoUtils daoUtils;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setHasOptionsMenu(true);
         daoUtils = DaoUtils.getInstance(getActivity().getApplicationContext());
     }
 
@@ -121,7 +130,7 @@ public class FriendsFragment extends Fragment implements OnLetterViewClickListen
         layout_new.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Utils.startActivity(getActivity(), NewFriendsActivity.class);
             }
         });
     }
@@ -135,6 +144,25 @@ public class FriendsFragment extends Fragment implements OnLetterViewClickListen
                 linearLayoutManager.scrollToPositionWithOffset(index, 0);
             }
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.activity_friends_menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.activity_search_friends);
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+
+        SearchView searchView = null;
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+            searchView.setSubmitButtonEnabled(true);
+        }
+
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     class FriendsComparator implements Comparator<User> {
