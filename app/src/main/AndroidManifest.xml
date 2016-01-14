@@ -77,12 +77,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ChatActivity"
+            android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
             android:taskAffinity=""
-            android:excludeFromRecents="true"/>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".PersonalIndexActivity"
             android:launchMode="singleInstance"
@@ -103,21 +102,21 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
-            <meta-data android:name="android.app.searchable"
+
+            <meta-data
+                android:name="android.app.searchable"
                 android:resource="@xml/friends_searchable" />
-
         </activity>
-
         <activity
             android:name=".NewFriendsActivity"
             android:launchMode="singleInstance"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- 实时通信模块、推送（若使用该功能，需添加以下声明）START -->
         <service
             android:name="com.avos.avoscloud.PushService"
-            android:exported="true"/>
+            android:exported="true" />
 
         <receiver android:name="com.avos.avoscloud.AVBroadcastReceiver">
             <intent-filter>
@@ -131,7 +130,10 @@
         <service
             android:name=".service.PublishMessageService"
             android:enabled="true" />
-
+        <service
+            android:name=".service.LocationService"
+            android:enabled="false"
+            android:exported="false"></service>
     </application>
 
 </manifest>

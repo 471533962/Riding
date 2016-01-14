@@ -113,8 +113,8 @@
     <orderEntry type="library" exported="" name="avoscloud-push-v3.12.3" level="project" />
     <orderEntry type="library" exported="" name="android-shapeLoadingView-1.0.3.2" level="project" />
     <orderEntry type="library" exported="" name="Android_Map_V3.0.20150831" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-23.1.1" level="project" />
     <orderEntry type="library" exported="" name="glide-3.6.1" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-23.1.1" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-23.1.1" level="project" />
     <orderEntry type="library" exported="" name="linearlistview-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="okhttp-2.6.0-leancloud" level="project" />

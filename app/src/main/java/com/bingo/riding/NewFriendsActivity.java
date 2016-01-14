@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
@@ -41,7 +42,7 @@ public class NewFriendsActivity extends AppCompatActivity {
     }
 
     private void init() {
-        AVQuery<AVObject> query = new AVQuery<>();
+        AVQuery<AVObject> query = new AVQuery("addFriendsRequest");
         query.setLimit(20);
         query.include("fromUser");
         query.orderByDescending("createdAt");
@@ -53,7 +54,7 @@ public class NewFriendsActivity extends AppCompatActivity {
                 if (e == null) {
 
                 } else {
-
+                    Toast.makeText(NewFriendsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });

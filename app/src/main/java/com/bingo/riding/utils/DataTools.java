@@ -192,6 +192,22 @@ public class DataTools {
         return user;
     }
 
+    public static User getUserFromAVObject(AVObject avObject){
+        User user = new User();
+
+        user.setNikeName(avObject.getString("nikeName"));
+        user.setMessage(avObject.getString("message"));
+        user.setIsMale(avObject.getBoolean("isMale"));
+        user.setObjectId(avObject.getObjectId());
+        AVFile userPhoto = avObject.getAVFile("userPhoto");
+        if (userPhoto != null){
+            user.setUserPhoto(userPhoto.getUrl());
+        }else{
+            user.setUserPhoto(null);
+        }
+        return user;
+    }
+
     public static Conversation getConversationFromAVIMConversation(AVIMConversation avimConversation){
         Conversation conversation = new Conversation();
 
