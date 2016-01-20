@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
@@ -52,10 +53,6 @@
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ImageGalleryActivity" />
-
-        <meta-data
-            android:name="com.amap.api.v2.apikey"
-            android:value="452d528b73a6025f5848ffc29af41e8c" />
 
         <activity
             android:name=".PersonalInfoActivity"
@@ -134,6 +131,11 @@
             android:name=".service.LocationService"
             android:enabled="false"
             android:exported="false"></service>
+
+        <service android:name="com.amap.api.location.APSService"></service>
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="452d528b73a6025f5848ffc29af41e8c" />
     </application>
 
 </manifest>

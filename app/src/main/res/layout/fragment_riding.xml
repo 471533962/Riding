@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.amap.api.maps.MapView
@@ -9,4 +9,31 @@
         android:layout_height="match_parent"
         android:clickable="true" />
 
-</LinearLayout>
+    <RelativeLayout
+        android:id="@+id/search_layout"
+        android:background="@color/white"
+        android:visibility="gone"
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/search_place_btn"
+            android:text="搜索"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/search_edit_text"
+            android:background="@drawable/text_search"
+            android:layout_toLeftOf="@+id/search_place_btn"
+            android:hint="请输入导航目的地"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

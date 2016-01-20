@@ -6,8 +6,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
+import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.SaveCallback;
 import com.bingo.riding.R;
 import com.bingo.riding.bean.AddFriendsRequest;
 import com.bumptech.glide.Glide;
@@ -35,7 +39,7 @@ public class NewFriendViewHolder extends RecyclerView.ViewHolder {
         agreedView = (TextView) itemView.findViewById(R.id.agreedView);
     }
 
-    public void bindData(AddFriendsRequest addFriendsRequest){
+    public void bindData(final AddFriendsRequest addFriendsRequest){
         this.addFriendsRequest = addFriendsRequest;
 
         AVFile userPhoto = addFriendsRequest.getFromUser().getAVFile("userPhoto");
@@ -51,7 +55,7 @@ public class NewFriendViewHolder extends RecyclerView.ViewHolder {
             avatarView.setImageResource(R.drawable.default_photo);
         }
 
-        int status = addFriendsRequest.getStatus();
+        final int status = addFriendsRequest.getStatus();
         if (status == AddFriendsRequest.STATUS_WAIT) {
             addBtn.setVisibility(View.VISIBLE);
             agreedView.setVisibility(View.GONE);
@@ -65,5 +69,30 @@ public class NewFriendViewHolder extends RecyclerView.ViewHolder {
                 agreedView.setText("已拒绝");
             }
         }
+
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AVObject avObject = addFriendsRequest.getAvObject();
+                avObject.put("status", AddFriendsRequest.STATUS_ACCEPT);
+                avObject.setFetchWhenSave(true);
+                avObject.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(AVException e) {
+                        if (e == null){
+                            Toast.makeText(mContext, "已同意", Toast.LENGTH_SHORT).show();
+
+                            addBtn.setVisibility(View.GONE);
+                            agreedView.setVisibility(View.VISIBLE);
+                            agreedView.setText("已同意");
+
+                        }else{
+                            Toast.makeText(mContext, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
     }
 }

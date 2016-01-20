@@ -12,12 +12,10 @@ import android.view.Menu;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
 import com.bingo.riding.adapter.SearchFriendsListAdapter;
-import com.bingo.riding.dao.User;
-import com.bingo.riding.utils.DataTools;
 import com.bingo.riding.utils.LogUtils;
 
 import java.util.ArrayList;
@@ -31,7 +29,7 @@ public class SearchFriendsActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private RecyclerView search_friends_list;
 
-    private List<User> searchFriendsList = new ArrayList<>();
+    private List<AVUser> searchFriendsList = new ArrayList<>();
     private SearchFriendsListAdapter searchFriendsListAdapter;
 
     @Override
@@ -58,17 +56,17 @@ public class SearchFriendsActivity extends AppCompatActivity {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             LogUtils.e("query : " + query);
-            AVQuery<AVObject> avObjectAVQuery = new AVQuery("_User");
+            AVQuery<AVUser> avObjectAVQuery = new AVQuery("_User");
             avObjectAVQuery.whereContains("nikeName", query);
+            avObjectAVQuery.whereNotEqualTo("objectId", AVUser.getCurrentUser().getObjectId());
             avObjectAVQuery.include("userPhoto");
 
-            avObjectAVQuery.findInBackground(new FindCallback<AVObject>() {
+            avObjectAVQuery.findInBackground(new FindCallback<AVUser>() {
                 @Override
-                public void done(List<AVObject> list, AVException e) {
+                public void done(List<AVUser> list, AVException e) {
                     if (e == null) {
-                        for (AVObject avObject : list) {
-                            User user = DataTools.getUserFromAVObject(avObject);
-                            searchFriendsList.add(user);
+                        for (AVUser avUser : list) {
+                            searchFriendsList.add(avUser);
                         }
                         searchFriendsListAdapter.notifyDataSetChanged();
                     }else{

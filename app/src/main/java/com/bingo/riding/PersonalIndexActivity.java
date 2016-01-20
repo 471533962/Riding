@@ -9,8 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVFile;
+import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.SaveCallback;
 import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.AVIMException;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
@@ -18,6 +23,8 @@ import com.bingo.riding.utils.AVImClientManager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.signature.StringSignature;
+import com.mingle.widget.ShapeLoadingDialog;
+import com.mingle.widget.ShapeLoadingView;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -29,9 +36,10 @@ public class PersonalIndexActivity extends AppCompatActivity {
     private TextView user_name;
     private TextView user_sex;
     private TextView user_message;
-    private Button have_chat;
+    private Button add_friends;
 
     private AVUser avUser;
+    private ShapeLoadingDialog shapeLoadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +54,9 @@ public class PersonalIndexActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        shapeLoadingDialog = new ShapeLoadingDialog(this);
+        shapeLoadingDialog.setCanceledOnTouchOutside(true);
 
         initView();
     }
@@ -65,7 +76,7 @@ public class PersonalIndexActivity extends AppCompatActivity {
         user_name = (TextView) findViewById(R.id.user_name);
         user_sex = (TextView) findViewById(R.id.user_sex);
         user_message = (TextView) findViewById(R.id.user_message);
-        have_chat = (Button) findViewById(R.id.have_chat);
+        add_friends = (Button) findViewById(R.id.add_friends);
 
 
         initData();
@@ -77,23 +88,48 @@ public class PersonalIndexActivity extends AppCompatActivity {
         user_message.setText(avUser.getString("message"));
         user_sex.setText(avUser.getBoolean("isMale") == true ? "男" : "女");
 
-        Glide.with(getApplicationContext())
-                .load(avUser.getAVFile("userPhoto").getUrl())
-                .signature(new StringSignature(avUser.getAVFile("userPhoto").getUrl()))
-                .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                .placeholder(R.drawable.a0c)
-                .error(R.drawable.default_error)
-                .centerCrop()
-                .into(user_photo);
+        AVFile avFile = avUser.getAVFile("userPhoto");
+        if (avFile != null){
+            Glide.with(getApplicationContext())
+                    .load(avFile.getUrl())
+                    .signature(new StringSignature(avUser.getAVFile("userPhoto").getUrl()))
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    .placeholder(R.drawable.a0c)
+                    .error(R.drawable.default_error)
+                    .centerCrop()
+                    .into(user_photo);
+        }else {
+            user_photo.setImageResource(R.drawable.default_photo);
+        }
+
     }
 
     private void initViewListener() {
-        have_chat.setOnClickListener(new View.OnClickListener() {
+        add_friends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PersonalIndexActivity.this, ChatActivity.class);
-                intent.putExtra("user", avUser);
-                startActivity(intent);
+                shapeLoadingDialog.setLoadingText("正在发送好友请求，请稍候......");
+                shapeLoadingDialog.show();
+
+                AVObject avObject = new AVObject("addFriendsRequest");
+                avObject.put("fromUser", AVUser.getCurrentUser());
+                avObject.put("toUser", avUser);
+                avObject.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(AVException e) {
+                        if (e == null){
+                            Toast.makeText(getApplicationContext(), "添加好友请求已发送", Toast.LENGTH_SHORT).show();
+                        }else{
+                            if (e.getCode() == 137){
+                                Toast.makeText(getApplicationContext(), "你已经发送过好友请求", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                            e.printStackTrace();
+                        }
+                        shapeLoadingDialog.dismiss();
+                    }
+                });
             }
         });
     }

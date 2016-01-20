@@ -13,6 +13,7 @@ import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.AVIMMessage;
 import com.avos.avoscloud.im.v2.AVIMTypedMessage;
 import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
+import com.bingo.riding.bean.AddFriendsRequest;
 import com.bingo.riding.bean.Discussion;
 import com.bingo.riding.bean.Message;
 import com.bingo.riding.dao.ChatMessage;
@@ -223,5 +224,17 @@ public class DataTools {
         conversation.setUnReadNum(Long.getLong("0"));
 
         return conversation;
+    }
+
+    public static AddFriendsRequest getAddFriendsRequestFromAVObject(AVObject avObject){
+        AddFriendsRequest addFriendsRequest = new AddFriendsRequest();
+
+        addFriendsRequest.setFromUser(avObject.getAVUser("fromUser"));
+        addFriendsRequest.setToUser(avObject.getAVUser("toUser"));
+        addFriendsRequest.setRead(avObject.getBoolean("isRead"));
+        addFriendsRequest.setStatus(avObject.getInt("status"));
+        addFriendsRequest.setAvObject(avObject);
+
+        return addFriendsRequest;
     }
 }

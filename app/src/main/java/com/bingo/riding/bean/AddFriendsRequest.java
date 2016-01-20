@@ -1,5 +1,6 @@
 package com.bingo.riding.bean;
 
+import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
 
 /**
@@ -10,10 +11,19 @@ public class AddFriendsRequest {
     public static final int STATUS_ACCEPT = 1;
     public static final int STATUS_REFUSE = 2;
 
+    private AVObject avObject;
     private AVUser fromUser;
     private AVUser toUser;
     private int status;
     private boolean isRead;
+
+    public AVObject getAvObject() {
+        return avObject;
+    }
+
+    public void setAvObject(AVObject avObject) {
+        this.avObject = avObject;
+    }
 
     public AVUser getFromUser() {
         return fromUser;

@@ -1,20 +1,26 @@
 package com.bingo.riding.fragment;
 
-import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.amap.api.location.LocationManagerProxy;
-import com.amap.api.location.LocationProviderProxy;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
+import com.avos.avoscloud.LogUtil;
 import com.bingo.riding.R;
 
 /**
@@ -24,14 +30,19 @@ public class RidingFragment extends Fragment implements LocationSource, AMapLoca
 
     private Bundle savedInstanceState;
     private OnLocationChangedListener mListener;
-    private LocationManagerProxy mAMapLocationManager;
+    private AMapLocationClient mapLocationClient;
+    private AMapLocationClientOption aMapLocationClientOption;
 
     private MapView mapView;
     private AMap aMap;
+    private RelativeLayout search_layout;
+    private Button search_place_btn;
+    private EditText search_edit_text;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);//添加菜单不调用该方法是没有用的
         this.savedInstanceState = savedInstanceState;
     }
 
@@ -39,6 +50,32 @@ public class RidingFragment extends Fragment implements LocationSource, AMapLoca
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mapView.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_riding_fragment, menu);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.riding_guide:
+                if (item.isChecked()){
+                    item.setIcon(R.drawable.ic_near_me_white_24dp);
+                    item.setChecked(false);
+                    search_layout.setVisibility(View.INVISIBLE);
+                }else{
+                    item.setIcon(R.drawable.ic_near_me_grey_500_24dp);
+                    item.setChecked(true);
+                    search_layout.setVisibility(View.VISIBLE);
+
+                }
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Nullable
@@ -53,7 +90,15 @@ public class RidingFragment extends Fragment implements LocationSource, AMapLoca
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mapView.onDestroy();
+        if (null != mapLocationClient) {
+            /**
+             * 如果AMapLocationClient是在当前Activity实例化的，
+             * 在Activity的onDestroy中一定要执行AMapLocationClient的onDestroy
+             */
+            mapLocationClient.onDestroy();
+            mapLocationClient = null;
+            aMapLocationClientOption = null;
+        }
     }
 
     @Override
@@ -72,55 +117,30 @@ public class RidingFragment extends Fragment implements LocationSource, AMapLoca
     @Override
     public void activate(OnLocationChangedListener onLocationChangedListener) {
         mListener = onLocationChangedListener;
-        if (mAMapLocationManager == null) {
-            mAMapLocationManager = LocationManagerProxy.getInstance(getActivity().getApplicationContext());
-			/*
-			 * mAMapLocManager.setGpsEnable(false);
-			 * 1.0.2版本新增方法，设置true表示混合定位中包含gps定位，false表示纯网络定位，默认是true Location
-			 * API定位采用GPS和网络混合定位方式
-			 * ，第一个参数是定位provider，第二个参数时间最短是2000毫秒，第三个参数距离间隔单位是米，第四个参数是定位监听者
-			 */
-            mAMapLocationManager.requestLocationData(
-                    LocationProviderProxy.AMapNetwork, 2000, 10, this);
+        if (null == mapLocationClient){
+            mapLocationClient = new AMapLocationClient(getActivity().getApplicationContext());
+
+            mapLocationClient.setLocationOption(aMapLocationClientOption);
+            mapLocationClient.startLocation();
         }
     }
 
     @Override
     public void deactivate() {
         mListener = null;
-        if (mAMapLocationManager != null) {
-            mAMapLocationManager.removeUpdates(this);
-            mAMapLocationManager.destroy();
+        if (null != mapLocationClient){
+            mapLocationClient.stopLocation();
+            mapLocationClient.onDestroy();
         }
-        mAMapLocationManager = null;
+        mapLocationClient = null;
     }
 
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
+        LogUtil.avlog.e("OnLocationChanged: latitude: " + aMapLocation.getLatitude() + " longitude:" + aMapLocation.getLongitude());
         if (mListener != null && aMapLocation != null) {
             mListener.onLocationChanged(aMapLocation);// 显示系统小蓝点
-
         }
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
     }
 
     private void initView(View view){
@@ -128,9 +148,30 @@ public class RidingFragment extends Fragment implements LocationSource, AMapLoca
         mapView.onCreate(savedInstanceState);
 
         aMap = mapView.getMap();
-        aMap.setLocationSource(this);
         aMap.getUiSettings().setMyLocationButtonEnabled(true);
+        aMap.setLocationSource(this);
         aMap.setMyLocationEnabled(true);
 
+        search_layout = (RelativeLayout) view.findViewById(R.id.search_layout);
+        search_place_btn = (Button) view.findViewById(R.id.search_place_btn);
+        search_edit_text = (EditText) view.findViewById(R.id.search_edit_text);
+
+
+        mapLocationClient = new AMapLocationClient(getActivity().getApplicationContext());
+        aMapLocationClientOption = new AMapLocationClientOption();
+        // 设置定位模式为GPS
+        aMapLocationClientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Device_Sensors);
+        //设置是否返回地址信息（默认返回地址信息）
+        aMapLocationClientOption.setNeedAddress(false);
+        //设置是否只定位一次,默认为false
+        aMapLocationClientOption.setOnceLocation(false);
+        //设置是否允许模拟位置,默认为false，不允许模拟位置
+        aMapLocationClientOption.setMockEnable(true);
+        //设置定位间隔,单位毫秒,默认为2000ms
+        aMapLocationClientOption.setInterval(10 * 1000);
+        // 设置定位监听
+        mapLocationClient.setLocationOption(aMapLocationClientOption);
+        mapLocationClient.setLocationListener(this);
+        mapLocationClient.startLocation();
     }
 }

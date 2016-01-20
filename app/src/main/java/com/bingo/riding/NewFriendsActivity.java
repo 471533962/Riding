@@ -15,6 +15,7 @@ import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
 import com.bingo.riding.adapter.NewFriendsListAdapter;
 import com.bingo.riding.bean.AddFriendsRequest;
+import com.bingo.riding.utils.DataTools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,9 +53,14 @@ public class NewFriendsActivity extends AppCompatActivity {
             @Override
             public void done(List<AVObject> list, AVException e) {
                 if (e == null) {
+                    for (AVObject avObject : list){
+                        addFriendsRequestList.add(DataTools.getAddFriendsRequestFromAVObject(avObject));
+                    }
 
+                    newFriendsListAdapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(NewFriendsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewFriendsActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
                 }
             }
         });
@@ -62,16 +68,16 @@ public class NewFriendsActivity extends AppCompatActivity {
 
     private void initView() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("新朋友");
+        toolbar.setTitle("好友申请");
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         new_friends_list = (RecyclerView) findViewById(R.id.new_friends_list);
-        linearLayoutManager = new LinearLayoutManager(this);
-        new_friends_list.setLayoutManager(linearLayoutManager);
+        new_friends_list.setLayoutManager(new LinearLayoutManager(this));
         addFriendsRequestList = new ArrayList<>();
         newFriendsListAdapter = new NewFriendsListAdapter(addFriendsRequestList);
         new_friends_list.setAdapter(newFriendsListAdapter);
+
     }
 }

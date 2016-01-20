@@ -29,7 +29,10 @@ import com.bingo.riding.R;
 import com.bingo.riding.dao.Conversation;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
+import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
+import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
+import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
 import java.io.BufferedOutputStream;
@@ -404,8 +407,6 @@ public class Utils {
     }
 
 
-    private static HanyuPinyinOutputFormat spellFormat; // 转换汉字得到其汉语拼音
-
     /**
      * 使用PinYin4j.jar将汉字转换为拼音
      *
@@ -415,7 +416,12 @@ public class Utils {
     public static String chineneToSpell(String chineseStr){
         if (isChinese(chineseStr)) {
             try {
-                String pinying = PinyinHelper.toHanyuPinyinString(chineseStr, spellFormat, "");
+                HanyuPinyinOutputFormat pyFormat = new HanyuPinyinOutputFormat();
+                pyFormat.setCaseType(HanyuPinyinCaseType.LOWERCASE);
+                pyFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+                pyFormat.setVCharType(HanyuPinyinVCharType.WITH_V);
+
+                String pinying = PinyinHelper.toHanyuPinyinString(chineseStr, pyFormat, "");
                 return pinying.toUpperCase();
             }catch (BadHanyuPinyinOutputFormatCombination e){
                 e.printStackTrace();

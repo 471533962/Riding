@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.avos.avoscloud.AVUser;
 import com.bingo.riding.R;
 import com.bingo.riding.dao.User;
 import com.bingo.riding.viewholder.SearchFriendViewHolder;
@@ -16,9 +17,9 @@ import java.util.List;
  */
 public class SearchFriendsListAdapter extends RecyclerView.Adapter<SearchFriendViewHolder> {
 
-    private List<User> searchFriendsList;
+    private List<AVUser> searchFriendsList;
 
-    public SearchFriendsListAdapter(List<User> searchFriendsList) {
+    public SearchFriendsListAdapter(List<AVUser> searchFriendsList) {
         this.searchFriendsList = searchFriendsList;
     }
 
