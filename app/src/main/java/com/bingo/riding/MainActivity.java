@@ -1,10 +1,10 @@
 package com.bingo.riding;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.SharedElementCallback;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,15 +20,11 @@ import android.widget.Toast;
 
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
-import com.avos.avoscloud.im.v2.AVIMClient;
-import com.avos.avoscloud.im.v2.AVIMException;
-import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 import com.bingo.riding.fragment.FriendsFragment;
 import com.bingo.riding.fragment.MeFragment;
 import com.bingo.riding.fragment.MessageFragment;
 import com.bingo.riding.fragment.RidingFragment;
 import com.bingo.riding.fragment.SquareFragment;
-import com.bingo.riding.utils.AVImClientManager;
 import com.bingo.riding.utils.Utils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -136,7 +132,9 @@ public class MainActivity extends AppCompatActivity
                     .commit();
             currentFragment = messageFragment;
         } else if (id == R.id.nav_feedback) {
-
+            startActivity(new Intent(MainActivity.this, FeedbackActivity.class));
+            this.overridePendingTransition(R.anim.push_left_in,
+                    R.anim.push_left_out);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

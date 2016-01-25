@@ -20,13 +20,14 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.LatLng;
 import com.avos.avoscloud.LogUtil;
 import com.bingo.riding.R;
 
 /**
  * Created by bingo on 15/10/12.
  */
-public class RidingFragment extends Fragment implements LocationSource, AMapLocationListener{
+public class RidingFragment extends Fragment implements LocationSource, AMapLocationListener, AMap.OnMapClickListener{
 
     private Bundle savedInstanceState;
     private OnLocationChangedListener mListener;
@@ -143,6 +144,13 @@ public class RidingFragment extends Fragment implements LocationSource, AMapLoca
         }
     }
 
+    @Override
+    public void onMapClick(LatLng latLng) {
+
+    }
+
+
+
     private void initView(View view){
         mapView = (MapView) view.findViewById(R.id.bmapView);
         mapView.onCreate(savedInstanceState);
@@ -151,6 +159,7 @@ public class RidingFragment extends Fragment implements LocationSource, AMapLoca
         aMap.getUiSettings().setMyLocationButtonEnabled(true);
         aMap.setLocationSource(this);
         aMap.setMyLocationEnabled(true);
+        aMap.setOnMapClickListener(this);
 
         search_layout = (RelativeLayout) view.findViewById(R.id.search_layout);
         search_place_btn = (Button) view.findViewById(R.id.search_place_btn);

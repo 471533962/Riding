@@ -53,7 +53,6 @@
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ImageGalleryActivity" />
-
         <activity
             android:name=".PersonalInfoActivity"
             android:label="个人信息"
@@ -110,6 +109,11 @@
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity android:name=".FeedbackActivity"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <!-- 实时通信模块、推送（若使用该功能，需添加以下声明）START -->
         <service
             android:name="com.avos.avoscloud.PushService"
@@ -130,9 +134,9 @@
         <service
             android:name=".service.LocationService"
             android:enabled="false"
-            android:exported="false"></service>
+            android:exported="false" />
+        <service android:name="com.amap.api.location.APSService" />
 
-        <service android:name="com.amap.api.location.APSService"></service>
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="452d528b73a6025f5848ffc29af41e8c" />

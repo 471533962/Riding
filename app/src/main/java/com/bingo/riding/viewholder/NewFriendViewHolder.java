@@ -8,15 +8,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.avos.avoscloud.AVCloud;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.FunctionCallback;
 import com.avos.avoscloud.SaveCallback;
 import com.bingo.riding.R;
 import com.bingo.riding.bean.AddFriendsRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.signature.StringSignature;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by bingo on 16/1/7.
@@ -74,11 +79,14 @@ public class NewFriendViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
                 AVObject avObject = addFriendsRequest.getAvObject();
-                avObject.put("status", AddFriendsRequest.STATUS_ACCEPT);
-                avObject.setFetchWhenSave(true);
-                avObject.saveInBackground(new SaveCallback() {
+                Map<String, Object> parameters = new HashMap<>();
+                parameters.put("objectId", avObject.getObjectId());
+                parameters.put("fromUser", avObject.getAVUser("fromUser").getObjectId());
+                parameters.put("toUser", avObject.getAVUser("toUser").getObjectId());
+
+                AVCloud.callFunctionInBackground("dealAddFriendsRequest", parameters, new FunctionCallback() {
                     @Override
-                    public void done(AVException e) {
+                    public void done(Object o, AVException e) {
                         if (e == null){
                             Toast.makeText(mContext, "已同意", Toast.LENGTH_SHORT).show();
 
@@ -92,6 +100,15 @@ public class NewFriendViewHolder extends RecyclerView.ViewHolder {
                         }
                     }
                 });
+
+//                avObject.put("status", AddFriendsRequest.STATUS_ACCEPT);
+//                avObject.setFetchWhenSave(true);
+//                avObject.saveInBackground(new SaveCallback() {
+//                    @Override
+//                    public void done(AVException e) {
+//
+//                    }
+//                });
             }
         });
     }

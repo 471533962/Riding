@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/Users/bingo/AndroidStudioWorkspace/Riding/androidtouchgallery/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_launcher.png",
+        "source": "/Users/bingo/AndroidStudioWorkspace/Riding/androidtouchgallery/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/bingo/AndroidStudioWorkspace/Riding/androidtouchgallery/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/no_photo.png",
+        "source": "/Users/bingo/AndroidStudioWorkspace/Riding/androidtouchgallery/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/no_photo.png"
+    }
+]

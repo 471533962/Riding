@@ -39,6 +39,6 @@ public class BaseApplication extends Application {
         PushService.subscribe(this, "Discussion", MessageMangerActivity.class);
         AVInstallation.getCurrentInstallation().saveInBackground();
         //测试环境云代码
-//        AVCloud.setProductionMode(false);
+        AVCloud.setProductionMode(false);
     }
 }

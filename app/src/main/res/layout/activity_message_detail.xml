@@ -97,21 +97,6 @@
                     android:layout_marginTop="5dp"
                     android:horizontalSpacing="5dp" />
 
-                <RelativeLayout
-                    android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_alignParentLeft="true"
-                        android:drawableLeft="@drawable/ic_visibility_grey_500_24dp"
-                        android:text="浏览74次"
-                        android:textSize="13sp"
-                        android:gravity="center_vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                </RelativeLayout>
             </LinearLayout>
 
             <com.linearlistview.LinearListView
