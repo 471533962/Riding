@@ -64,7 +64,7 @@ public class SquareFragment extends Fragment implements SquareItemClickListener,
         AVQuery<AVObject> query = new AVQuery("squareMessage");
         query.setCachePolicy(AVQuery.CachePolicy.NETWORK_ELSE_CACHE);
 
-        query.doCloudQueryInBackground("select include images,include poster,include poster.userPhoto, * from squareMessage order by updatedAt desc", new CloudQueryCallback<AVCloudQueryResult>() {
+        query.doCloudQueryInBackground("select include images,include poster,include poster.userPhoto, * from squareMessage limit 20 order by updatedAt desc", new CloudQueryCallback<AVCloudQueryResult>() {
             @Override
             public void done(AVCloudQueryResult avCloudQueryResult, AVException e) {
                 if (e == null){
@@ -121,7 +121,8 @@ public class SquareFragment extends Fragment implements SquareItemClickListener,
             squareListAdapter = new SquareListAdapter(getActivity(), messageList, SquareFragment.this, SquareFragment.this);
         }
         fragment_square_recyclerview.setAdapter(squareListAdapter);
-        fragment_square_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        fragment_square_recyclerview.setLayoutManager(layoutManager);
 
     }
 

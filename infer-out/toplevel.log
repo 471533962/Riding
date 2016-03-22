@@ -1,0 +1,20 @@
+[INFO] Running command /usr/local/bin/infer -- ./gradlew build
+[INFO] Path to infer script /usr/local/bin/infer (/usr/local/Cellar/infer/0.5.0/libexec/infer/lib/python/infer)
+[INFO] Infer version v0.5.0
+Copyright 2009 - present Facebook. All Rights Reserved.
+
+
+[INFO] Platform: Darwin-15.3.0-x86_64-i386-64bit
+[INFO] PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/bingo/apache-maven-3.0.5/bin
+[INFO] SHELL=/bin/bash
+[INFO] PWD=/Users/bingo/AndroidStudioWorkspace/Riding
+[INFO] Running with:
+calling ./gradlew --version failed
+Traceback (most recent call last):
+  File "/usr/local/Cellar/infer/0.5.0/libexec/infer/lib/python/inferlib/capture/util.py", line 52, in run_cmd_ignore_fail
+    return subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/subprocess.py", line 573, in check_output
+    raise CalledProcessError(retcode, cmd, output=output)
+CalledProcessError: Command '[u'./gradlew', '--version']' returned non-zero exit status 1
+
+[ERROR] Error during capture phase, exiting

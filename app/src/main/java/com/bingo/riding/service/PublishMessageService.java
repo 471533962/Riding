@@ -53,9 +53,10 @@ public class PublishMessageService extends Service {
                     squareMessage.setFetchWhenSave(true);
                     squareMessage.save();
                     Log.e("bingo", "结束保存");
-                    EventBus.getDefault().post(new PublishMessageEvent(new Message(content, squareMessage, photoList, squareMessage.getAVUser("poster")), true));
+                    EventBus.getDefault().post(new PublishMessageEvent(new Message(content, squareMessage, photoList, AVUser.getCurrentUser()), true));
                 }catch (Exception e){
                     EventBus.getDefault().post(new PublishMessageEvent(null, false));
+                    e.printStackTrace();
                 }
             }
         }).start();

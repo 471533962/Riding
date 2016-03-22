@@ -58,8 +58,8 @@ public class ImageGalleryActivity extends AppCompatActivity {
             pagerAdapter = new UrlPagerAdapter(getApplicationContext(), photosList);
         }
 
-        mViewPager.setCurrentItem(startPosition);
         mViewPager.setAdapter(pagerAdapter);
+        mViewPager.setCurrentItem(startPosition);
     }
 
     @Override
@@ -88,7 +88,8 @@ public class ImageGalleryActivity extends AppCompatActivity {
                     //设置返回数据
                     setResult(RESULT_OK, intent);
                     //关闭Activity
-                    finish();
+                    ImageGalleryActivity.this.finish();
+                    return true;
                 }
 
 
