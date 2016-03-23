@@ -81,8 +81,8 @@ public class MessageDiscussAdapter extends BaseAdapter {
                     .load(userPhoto.getUrl())
                     .signature(new StringSignature(userPhoto.getUrl()))
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                    .placeholder(R.drawable.a0c)
-                    .error(R.drawable.default_error)
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.loaderror)
                     .centerCrop()
                     .into(viewHolder.message_publisher_photo);
         } else {

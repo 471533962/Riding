@@ -58,8 +58,8 @@ public class GridPhotosAdapter extends BaseAdapter {
                 .load(photoList.get(position))
                 .signature(new StringSignature(photoList.get(position)))
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                .placeholder(R.drawable.a0c)
-                .error(R.drawable.default_error)
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.loaderror)
                 .override(250, 250)
                 .centerCrop()
                 .into(imageView);

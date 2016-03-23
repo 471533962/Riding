@@ -2,6 +2,7 @@ package com.bingo.riding.utils;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.TableRow;
 
 import com.bingo.riding.dao.ChatMessage;
 import com.bingo.riding.dao.ChatMessageDao;
@@ -11,9 +12,12 @@ import com.bingo.riding.dao.DaoMaster;
 import com.bingo.riding.dao.DaoSession;
 import com.bingo.riding.dao.User;
 import com.bingo.riding.dao.UserDao;
+import com.bingo.riding.interfaces.OnConversationChangeListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.dao.query.Query;
 import de.greenrobot.dao.query.QueryBuilder;
 
 /**
@@ -26,6 +30,7 @@ public class DaoUtils {
     private ChatMessageDao chatMessageDao;
     private UserDao userDao;
     private ConversationDao conversationDao;
+    private List<OnConversationChangeListener> onConversationChangeListenerList = new ArrayList<>();
 
     private DaoUtils(Context context) {
         DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(context, DBNAME, null);
@@ -49,10 +54,8 @@ public class DaoUtils {
 
     public void insertChatMessage(ChatMessage chatMessage){
         chatMessageDao.insertOrReplace(chatMessage);
-    }
 
-    public void updateReadChatMessage(ChatMessage chatMessage){
-        chatMessageDao.update(chatMessage);
+        notifyConversationChange(true, false);
     }
 
     public List<ChatMessage> getMessagesAccordingToConversationId(String conversationId){
@@ -61,6 +64,19 @@ public class DaoUtils {
         queryBuilder.limit(20);
         queryBuilder.where(ChatMessageDao.Properties.ConversationId.eq(conversationId));
         return queryBuilder.list();
+    }
+
+    public void updateUnreadAccordingToConversationId(String conversationId){
+        QueryBuilder queryBuilder = chatMessageDao.queryBuilder();
+        queryBuilder.where(ChatMessageDao.Properties.ConversationId.eq(conversationId));
+        queryBuilder.where(ChatMessageDao.Properties.IsRead.eq(false));
+        List<ChatMessage> chatMessageList = queryBuilder.list();
+        for (ChatMessage chatMessage : chatMessageList){
+            chatMessage.setIsRead(true);
+            chatMessageDao.insertOrReplace(chatMessage);
+        }
+
+        notifyConversationChange(true, false);
     }
 
     public void insertUser(User user){
@@ -73,10 +89,14 @@ public class DaoUtils {
 
     public void deleteChatMessages(){
         chatMessageDao.deleteAll();
+
+        notifyConversationChange(true, false);
     }
 
     public void deleteConversations(){
         conversationDao.deleteAll();
+
+        notifyConversationChange(false, true);
     }
 
     /**
@@ -93,6 +113,8 @@ public class DaoUtils {
 
     public void insertConversation(Conversation conversation){
         conversationDao.insertOrReplace(conversation);
+
+        notifyConversationChange(false, true);
     }
 
     /**
@@ -127,6 +149,7 @@ public class DaoUtils {
     public long getUnreadChatMessageNumber(String conversationId){
         QueryBuilder chatMessageQueryBuilder = chatMessageDao.queryBuilder();
         chatMessageQueryBuilder.where(ChatMessageDao.Properties.ConversationId.eq(conversationId));
+        chatMessageQueryBuilder.where(ChatMessageDao.Properties.IsRead.eq(false));
         return chatMessageQueryBuilder.count();
     }
 
@@ -137,6 +160,26 @@ public class DaoUtils {
         for (ChatMessage chatmessage: (List<ChatMessage>)chatMessageQueryBuilder.list()) {
             chatmessage.setIsRead(true);
             chatMessageDao.update(chatmessage);
+        }
+
+        notifyConversationChange(true, false);
+    }
+
+    private void notifyConversationChange(boolean isChatMessageChange, boolean isConversationChange){
+        for (OnConversationChangeListener conversationChangeListener: onConversationChangeListenerList){
+            if (isChatMessageChange) {
+                conversationChangeListener.onChatMessageChange();
+            }
+
+            if(isConversationChange){
+                conversationChangeListener.onConversationChange();
+            }
+        }
+    }
+
+    public void addNotifyConversationListener(OnConversationChangeListener onConversationChangeListener){
+        if (onConversationChangeListenerList.contains(onConversationChangeListener) == false){
+            onConversationChangeListenerList.add(onConversationChangeListener);
         }
     }
 }

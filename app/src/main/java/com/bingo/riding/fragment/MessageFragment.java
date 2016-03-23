@@ -19,6 +19,7 @@ import com.bingo.riding.dao.ChatMessage;
 import com.bingo.riding.dao.Conversation;
 import com.bingo.riding.event.ConversationItemClickEvent;
 import com.bingo.riding.event.ImTypeMessageEvent;
+import com.bingo.riding.interfaces.OnConversationChangeListener;
 import com.bingo.riding.utils.Constants;
 import com.bingo.riding.utils.DaoUtils;
 import com.bingo.riding.utils.DividerItemDecoration;
@@ -27,7 +28,7 @@ import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
-public class MessageFragment extends Fragment {
+public class MessageFragment extends Fragment implements OnConversationChangeListener{
 
     private View view;
     private RecyclerView fragment_message_message_list;
@@ -46,6 +47,7 @@ public class MessageFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         daoUtils = DaoUtils.getInstance(getActivity());
+        daoUtils.addNotifyConversationListener(this);
     }
 
     @Override
@@ -92,10 +94,20 @@ public class MessageFragment extends Fragment {
         startActivity(intent);
     }
 
-    public void onEvent(ImTypeMessageEvent imTypeMessageEvent){
+    public void updateConversation(){
         List<Conversation> list = daoUtils.getAllConversations();
         conversationList.clear();
         conversationList.addAll(list);
         conversationListAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onChatMessageChange() {
+        updateConversation();
+    }
+
+    @Override
+    public void onConversationChange() {
+        updateConversation();
     }
 }

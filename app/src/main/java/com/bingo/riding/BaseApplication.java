@@ -15,6 +15,7 @@ import com.avos.avoscloud.im.v2.AVIMTypedMessage;
 import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 import com.bingo.riding.utils.AVImClientManager;
 import com.bingo.riding.utils.MessageHandler;
+import com.facebook.stetho.Stetho;
 
 /**
  * Created by bingo on 15/10/21.
@@ -40,5 +41,14 @@ public class BaseApplication extends Application {
         AVInstallation.getCurrentInstallation().saveInBackground();
         //测试环境云代码
         AVCloud.setProductionMode(false);
+
+        //调试数据库
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                        .enableDumpapp(
+                                Stetho.defaultDumperPluginsProvider(this))
+                        .enableWebKitInspector(
+                                Stetho.defaultInspectorModulesProvider(this))
+                        .build());
     }
 }

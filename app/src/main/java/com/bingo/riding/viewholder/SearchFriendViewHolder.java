@@ -54,8 +54,8 @@ public class SearchFriendViewHolder extends RecyclerView.ViewHolder {
                     .load(user.getUserPhoto())
                     .signature(new StringSignature(user.getUserPhoto()))
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                    .placeholder(R.drawable.a0c)
-                    .error(R.drawable.default_error)
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.loaderror)
                     .into(avatarView);
         }
         nameView.setText(user.getNikeName());

@@ -74,8 +74,8 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
                     .load(userPhoto.getUrl())
                     .signature(new StringSignature(userPhoto.getUrl()))
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                    .placeholder(R.drawable.a0c)
-                    .error(R.drawable.default_error)
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.loaderror)
                     .centerCrop()
                     .into(personalImage_imageView);
         }else{

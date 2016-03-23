@@ -77,8 +77,8 @@ public class ChatMessageListAdapter extends RecyclerView.Adapter<ChatMessageList
                         .load(userPicHash.get(OTHER_USER_PIC))
                         .signature(new StringSignature(userPicHash.get(SELF_USER_PIC)))
                         .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                        .placeholder(R.drawable.a0c)
-                        .error(R.drawable.default_error)
+                        .placeholder(R.drawable.placeholder)
+                        .error(R.drawable.loaderror)
                         .into(holder.chat_item_me_pic);
             }else{
                 holder.chat_item_me_pic.setImageResource(R.drawable.default_photo);
@@ -96,8 +96,8 @@ public class ChatMessageListAdapter extends RecyclerView.Adapter<ChatMessageList
                         .load(userPicHash.get(SELF_USER_PIC))
                         .signature(new StringSignature(userPicHash.get(OTHER_USER_PIC)))
                         .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                        .placeholder(R.drawable.a0c)
-                        .error(R.drawable.default_error)
+                        .placeholder(R.drawable.placeholder)
+                        .error(R.drawable.loaderror)
                         .into(holder.chat_item_user_pic);
             }else{
                 holder.chat_item_user_pic.setImageResource(R.drawable.default_photo);

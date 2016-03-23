@@ -221,7 +221,6 @@ public class DataTools {
             memberArray.add(user);
         }
         conversation.setMembers(memberArray.toJSONString());
-        conversation.setUnReadNum(Long.getLong("0"));
 
         return conversation;
     }

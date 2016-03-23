@@ -80,4 +80,5 @@ public class NewFriendsActivity extends AppCompatActivity {
         new_friends_list.setAdapter(newFriendsListAdapter);
 
     }
+
 }

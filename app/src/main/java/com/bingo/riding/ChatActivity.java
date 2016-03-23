@@ -78,6 +78,7 @@ public class ChatActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         init();
         initView();
+
     }
 
     @Override
@@ -130,6 +131,8 @@ public class ChatActivity extends AppCompatActivity implements SwipeRefreshLayou
 
                                     ChatActivity.this.avimConversation = avimConversation;
                                     chatMessageList.addAll(daoUtils.getMessagesAccordingToConversationId(avimConversation.getConversationId()));
+
+                                    daoUtils.updateUnreadAccordingToConversationId(avimConversation.getConversationId());
                                     Collections.reverse(chatMessageList);
                                     chatMessageListAdapter.notifyDataSetChanged();
                                     scrollToBottom();
@@ -212,14 +215,4 @@ public class ChatActivity extends AppCompatActivity implements SwipeRefreshLayou
         return avimConversation.getConversationId();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                onBackPressed();
-                finish();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

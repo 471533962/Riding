@@ -54,8 +54,8 @@ public class NewFriendViewHolder extends RecyclerView.ViewHolder {
                     .load(userPhoto.getUrl())
                     .signature(new StringSignature(userPhoto.getUrl()))
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                    .placeholder(R.drawable.a0c)
-                    .error(R.drawable.default_error)
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.loaderror)
                     .into(avatarView);
         }else{
             avatarView.setImageResource(R.drawable.default_photo);

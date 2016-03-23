@@ -58,7 +58,7 @@ public class UrlTouchImageView extends RelativeLayout {
     protected void init() {
         mImageView = new TouchImageView(mContext);
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        mImageView.setImageResource(R.drawable.a0c);
+        mImageView.setImageResource(R.drawable.placeholder);
         mImageView.setScaleType(ScaleType.CENTER);
         mImageView.setLayoutParams(params);
         this.addView(mImageView);
@@ -71,8 +71,8 @@ public class UrlTouchImageView extends RelativeLayout {
                 .asBitmap()
                 .signature(new StringSignature(imageUrl))
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                .placeholder(R.drawable.a0c)
-                .error(R.drawable.no_photo)
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.loaderror)
                 .override(500, 500)
                 .centerCrop()
                 .into(new SimpleTarget<Bitmap>() {

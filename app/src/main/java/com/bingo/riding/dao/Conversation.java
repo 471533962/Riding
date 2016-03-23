@@ -12,7 +12,6 @@ public class Conversation {
     private String creator;
     private String attributes;
     private String lastMessageAt;
-    private Long unReadNum;
 
     public Conversation() {
     }
@@ -21,14 +20,13 @@ public class Conversation {
         this.conversationId = conversationId;
     }
 
-    public Conversation(String conversationId, String name, String members, String creator, String attributes, String lastMessageAt, Long unReadNum) {
+    public Conversation(String conversationId, String name, String members, String creator, String attributes, String lastMessageAt) {
         this.conversationId = conversationId;
         this.name = name;
         this.members = members;
         this.creator = creator;
         this.attributes = attributes;
         this.lastMessageAt = lastMessageAt;
-        this.unReadNum = unReadNum;
     }
 
     public String getConversationId() {
@@ -77,14 +75,6 @@ public class Conversation {
 
     public void setLastMessageAt(String lastMessageAt) {
         this.lastMessageAt = lastMessageAt;
-    }
-
-    public Long getUnReadNum() {
-        return unReadNum;
-    }
-
-    public void setUnReadNum(Long unReadNum) {
-        this.unReadNum = unReadNum;
     }
 
 }

@@ -1,6 +1,10 @@
 [
     {
-        "merged": "/Users/bingo/AndroidStudioWorkspace/Riding/androidtouchgallery/build/intermediates/res/merged/androidTest/debug/drawable/a0c.9.png",
-        "source": "/Users/bingo/AndroidStudioWorkspace/Riding/androidtouchgallery/build/intermediates/bundles/debug/res/drawable/a0c.9.png"
+        "merged": "/Users/bingo/AndroidStudioWorkspace/Riding/androidtouchgallery/build/intermediates/res/merged/androidTest/debug/drawable/loaderror.png",
+        "source": "/Users/bingo/AndroidStudioWorkspace/Riding/androidtouchgallery/build/intermediates/bundles/debug/res/drawable/loaderror.png"
+    },
+    {
+        "merged": "/Users/bingo/AndroidStudioWorkspace/Riding/androidtouchgallery/build/intermediates/res/merged/androidTest/debug/drawable/placeholder.png",
+        "source": "/Users/bingo/AndroidStudioWorkspace/Riding/androidtouchgallery/build/intermediates/bundles/debug/res/drawable/placeholder.png"
     }
 ]

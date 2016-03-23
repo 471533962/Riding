@@ -71,8 +71,8 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
                         .load(friendItem.user.getUserPhoto())
                         .signature(new StringSignature(friendItem.user.getUserPhoto()))
                         .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                        .placeholder(R.drawable.a0c)
-                        .error(R.drawable.default_error)
+                        .placeholder(R.drawable.placeholder)
+                        .error(R.drawable.loaderror)
                         .into(avatarView);
             }
             nameView.setText(friendItem.user.getNikeName());

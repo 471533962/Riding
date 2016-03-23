@@ -10,27 +10,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.avos.avoscloud.AVFile;
 import com.bingo.riding.ImageGalleryActivity;
 import com.bingo.riding.R;
 import com.bingo.riding.bean.Message;
+import com.bingo.riding.event.SquareMessageLoadMoreEvent;
 import com.bingo.riding.interfaces.SquareItemClickListener;
-import com.bingo.riding.interfaces.SquareItemLongClickListener;
 import com.bingo.riding.ui.SquarePhotosGridView;
 import com.bingo.riding.utils.DataTools;
-import com.bingo.riding.utils.Utils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.signature.StringSignature;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 
 /**
@@ -43,16 +42,14 @@ public class SquareListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private List<Message> messageList;
     private Context mContext;
     private SquareItemClickListener squareItemClickListener;
-    private SquareItemLongClickListener squareItemLongClickListener;
+    private boolean isNeedToReset = false;
 
     public SquareListAdapter(Context mContext,
                              List<Message> messageList,
-                             @Nullable SquareItemClickListener squareItemClickListener,
-                             @Nullable SquareItemLongClickListener squareItemLongClickListener) {
+                             @Nullable SquareItemClickListener squareItemClickListener) {
         this.mContext = mContext;
         this.messageList = messageList;
         this.squareItemClickListener = squareItemClickListener;
-        this.squareItemLongClickListener = squareItemLongClickListener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
@@ -63,11 +60,9 @@ public class SquareListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         ImageView message_publisher_photo;
 
         SquareItemClickListener squareItemClickListener;
-        SquareItemLongClickListener squareItemLongClickListener;
 
         public ViewHolder(View itemView,
-                          @Nullable SquareItemClickListener squareItemClickListener,
-                          @Nullable SquareItemLongClickListener squareItemLongClickListener) {
+                          @Nullable SquareItemClickListener squareItemClickListener) {
             super(itemView);
 
             message_publisher_name = (TextView) itemView.findViewById(R.id.message_publisher_name);
@@ -77,7 +72,6 @@ public class SquareListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             message_publisher_photo = (ImageView) itemView.findViewById(R.id.message_publisher_photo);
 
             this.squareItemClickListener = squareItemClickListener;
-            this.squareItemLongClickListener = squareItemLongClickListener;
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
@@ -92,8 +86,8 @@ public class SquareListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         @Override
         public boolean onLongClick(View v) {
-            if (squareItemLongClickListener != null){
-                squareItemLongClickListener.onLongClick(v, getAdapterPosition());
+            if (squareItemClickListener != null){
+                squareItemClickListener.onLongClick(v, getAdapterPosition());
             }
             return true;
         }
@@ -104,7 +98,7 @@ public class SquareListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         Button loadMoreBtn;
         ContentLoadingProgressBar contentLoadingProgressBar;
 
-        public FootViewHolder(View itemView) {
+        public FootViewHolder(final View itemView) {
             super(itemView);
 
             loadMoreBtn = (Button) itemView.findViewById(R.id.loadMoreBtn);
@@ -118,10 +112,16 @@ public class SquareListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 public void onClick(View v) {
                     loadMoreBtn.setVisibility(View.INVISIBLE);
                     contentLoadingProgressBar.setVisibility(View.VISIBLE);
+
+                    EventBus.getDefault().post(new SquareMessageLoadMoreEvent());
                 }
             });
         }
 
+        public void resetView(){
+            loadMoreBtn.setVisibility(View.VISIBLE);
+            contentLoadingProgressBar.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -147,7 +147,7 @@ public class SquareListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (viewType == TYPE_CONTENT) {
             View itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.fragment_square_message_item, parent, false);
-            viewHolder = new ViewHolder(itemView, squareItemClickListener, squareItemLongClickListener);
+            viewHolder = new ViewHolder(itemView, squareItemClickListener);
         }else if (viewType == TYPE_FOOT){
             View footView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.bottom_view, parent, false);
@@ -171,7 +171,7 @@ public class SquareListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         .load(userPhoto.getUrl())
                         .signature(new StringSignature(userPhoto.getUrl()))
                         .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                        .placeholder(R.drawable.a0c)
+                        .placeholder(R.drawable.placeholder)
                         .error(R.drawable.default_error)
                         .centerCrop()
                         .into(viewHolder.message_publisher_photo);
@@ -198,9 +198,16 @@ public class SquareListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             }
         }else if (holder instanceof FootViewHolder){
             FootViewHolder footViewHolder = (FootViewHolder) holder;
+            if (isNeedToReset == true){
+                footViewHolder.resetView();
+                isNeedToReset = false;
+            }
         }
     }
 
+    public void setNeedToReset(boolean needToReset) {
+        isNeedToReset = needToReset;
+    }
 }
 
 

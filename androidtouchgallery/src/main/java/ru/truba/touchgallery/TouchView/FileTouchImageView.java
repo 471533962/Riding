@@ -54,8 +54,8 @@ public class FileTouchImageView extends UrlTouchImageView
                 .asBitmap()
                 .signature(new StringSignature(imagePath))
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                .placeholder(R.drawable.a0c)
-                .error(R.drawable.no_photo)
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.loaderror)
                 .override(500, 500)
                 .centerCrop()
                 .into(new SimpleTarget<Bitmap>() {

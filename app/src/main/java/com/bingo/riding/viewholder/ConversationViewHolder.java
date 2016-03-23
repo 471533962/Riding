@@ -82,17 +82,15 @@ public class ConversationViewHolder extends RecyclerView.ViewHolder{
                             .load(user.getUserPhoto())
                             .signature(new StringSignature(user.getUserPhoto()))
                             .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                            .placeholder(R.drawable.a0c)
-                            .error(R.drawable.default_error)
+                            .placeholder(R.drawable.placeholder)
+                            .error(R.drawable.loaderror)
                             .into(avatarView);
                 }
                 nameView.setText(user.getNikeName());
-                if (conversation.getUnReadNum() != null){
-                    unreadView.setText(conversation.getUnReadNum() + "");
-                    unreadView.setVisibility(conversation.getUnReadNum() > 0 ? View.VISIBLE : View.GONE);
-                }else {
-                    unreadView.setVisibility(View.GONE);
-                }
+
+                long unReadNum = daoUtils.getUnreadChatMessageNumber(conversation.getConversationId());
+                unreadView.setText(unReadNum + "");
+                unreadView.setVisibility(unReadNum > 0 ? View.VISIBLE : View.GONE);
             }
 
 

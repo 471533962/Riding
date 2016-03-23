@@ -94,8 +94,8 @@ public class PersonalIndexActivity extends AppCompatActivity {
                     .load(avFile.getUrl())
                     .signature(new StringSignature(avUser.getAVFile("userPhoto").getUrl()))
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                    .placeholder(R.drawable.a0c)
-                    .error(R.drawable.default_error)
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.loaderror)
                     .centerCrop()
                     .into(user_photo);
         }else {

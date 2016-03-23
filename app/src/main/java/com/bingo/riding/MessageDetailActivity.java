@@ -18,8 +18,6 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
-import com.avos.avoscloud.FindCallback;
-import com.avos.avoscloud.SaveCallback;
 import com.bingo.riding.adapter.GridPhotosAdapter;
 import com.bingo.riding.adapter.MessageDiscussAdapter;
 import com.bingo.riding.bean.Discussion;
@@ -37,7 +35,7 @@ import com.lsjwzh.loadingeverywhere.LoadingLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageDetailActivity extends AppCompatActivity implements View.OnClickListener, OnDiscussionContentClickListener{
+public class MessageDetailActivity extends AppCompatActivity implements View.OnClickListener, OnDiscussionContentClickListener {
 
     private Toolbar toolbar;
     private Message message;
@@ -63,7 +61,7 @@ public class MessageDetailActivity extends AppCompatActivity implements View.OnC
         setContentView(R.layout.activity_message_detail);
         try {
             Intent intent = getIntent();
-            if (intent != null){
+            if (intent != null) {
                 Bundle bundle = intent.getBundleExtra("bundle");
                 message = DataTools.getMessageFromJSONString(bundle.getString("message"));
             }
@@ -77,12 +75,12 @@ public class MessageDetailActivity extends AppCompatActivity implements View.OnC
             }
 
             initView();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void initView(){
+    private void initView() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("状态");
         setSupportActionBar(toolbar);
@@ -103,15 +101,15 @@ public class MessageDetailActivity extends AppCompatActivity implements View.OnC
         initData();
     }
 
-    private void initData(){
+    private void initData() {
         AVFile userPhoto = message.getPoster().getAVFile("userPhoto");
-        if (userPhoto != null){
+        if (userPhoto != null) {
             Glide.with(getApplicationContext())
                     .load(userPhoto.getUrl())
                     .signature(new StringSignature(userPhoto.getUrl()))
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                    .placeholder(R.drawable.a0c)
-                    .error(R.drawable.default_error)
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.loaderror)
                     .centerCrop()
                     .into(message_photo);
         } else {
@@ -122,7 +120,7 @@ public class MessageDetailActivity extends AppCompatActivity implements View.OnC
         message_publisher_name.setText(message.getPoster().getString("nikeName"));
         publish_time.setText(DataTools.timeLogic(message.getMessageObject().getCreatedAt()));
 
-        if (message.getPhotoList().size() > 0){
+        if (message.getPhotoList().size() > 0) {
             community_image_grid_view.setVisibility(View.VISIBLE);
             community_image_grid_view.setAdapter(new GridPhotosAdapter(this, message.getPhotoList()));
             community_image_grid_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -136,7 +134,7 @@ public class MessageDetailActivity extends AppCompatActivity implements View.OnC
                     MessageDetailActivity.this.startActivity(intent);
                 }
             });
-        }else{
+        } else {
             community_image_grid_view.setVisibility(View.GONE);
         }
 
@@ -151,7 +149,7 @@ public class MessageDetailActivity extends AppCompatActivity implements View.OnC
                             .include("poster")
                             .include("replier")
                             .find();
-                    for (AVObject avObject : discussionObject){
+                    for (AVObject avObject : discussionObject) {
                         Discussion discussion = DataTools.getDiscussionFromAVObject(avObject);
 
 
@@ -162,8 +160,8 @@ public class MessageDetailActivity extends AppCompatActivity implements View.OnC
                                 .include("replier")
                                 .find();
 
-                        List<Discussion> childrenDiscussions= new ArrayList<>();
-                        for(AVObject children : childrenDiscussionList){
+                        List<Discussion> childrenDiscussions = new ArrayList<>();
+                        for (AVObject children : childrenDiscussionList) {
                             Discussion childrenDiscussion = DataTools.getDiscussionFromAVObject(children);
 
                             childrenDiscussions.add(childrenDiscussion);
@@ -182,7 +180,7 @@ public class MessageDetailActivity extends AppCompatActivity implements View.OnC
                         }
                     });
 
-                }catch (AVException ave){
+                } catch (AVException ave) {
                     ave.printStackTrace();
                 }
 
@@ -199,10 +197,10 @@ public class MessageDetailActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.sendBtn:
                 final String commentContent = commentEditText.getText().toString();
-                if (commentContent.length() == 0){
+                if (commentContent.length() == 0) {
                     Toast.makeText(MessageDetailActivity.this, "请输入评论内容", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -210,12 +208,12 @@ public class MessageDetailActivity extends AppCompatActivity implements View.OnC
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        try{
+                        try {
                             final AVObject discuss = new AVObject("discuss");
                             discuss.put("poster", AVUser.getCurrentUser());
-                            if (pretendReply == null){
+                            if (pretendReply == null) {
                                 discuss.put("replier", message.getPoster());
-                            }else{
+                            } else {
                                 discuss.put("replier", pretendReply.getPoster());
                             }
                             discuss.put("content", commentContent);
@@ -223,7 +221,7 @@ public class MessageDetailActivity extends AppCompatActivity implements View.OnC
                             discuss.setFetchWhenSave(true);
                             discuss.save();
 
-                            if (pretendReply == null){
+                            if (pretendReply == null) {
                                 message.getMessageObject()
                                         .getRelation("discussion")
                                         .add(discuss);
@@ -249,7 +247,7 @@ public class MessageDetailActivity extends AppCompatActivity implements View.OnC
                                         Utils.closeSoftInput(MessageDetailActivity.this, commentEditText);
                                     }
                                 });
-                            }else{
+                            } else {
                                 final int location = discussionList.indexOf(pretendReply);
 
                                 pretendReply.getDiscussionObject()
@@ -277,7 +275,7 @@ public class MessageDetailActivity extends AppCompatActivity implements View.OnC
                                     }
                                 });
                             }
-                        }catch (AVException e){
+                        } catch (AVException e) {
                             e.printStackTrace();
                             runOnUiThread(new Runnable() {
                                 @Override

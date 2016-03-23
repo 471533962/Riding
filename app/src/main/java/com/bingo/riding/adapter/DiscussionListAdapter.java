@@ -63,8 +63,8 @@ public class DiscussionListAdapter extends RecyclerView.Adapter<DiscussionListAd
                     .load(userPhoto.getUrl())
                     .signature(new StringSignature(userPhoto.getUrl()))
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                    .placeholder(R.drawable.a0c)
-                    .error(R.drawable.default_error)
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.loaderror)
                     .centerCrop()
                     .into(holder.message_publisher_photo);
         } else {
@@ -80,8 +80,8 @@ public class DiscussionListAdapter extends RecyclerView.Adapter<DiscussionListAd
                     .load(message.getPhotoList().get(0))
                     .signature(new StringSignature(message.getPhotoList().get(0)))
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                    .placeholder(R.drawable.a0c)
-                    .error(R.drawable.default_error)
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.loaderror)
                     .override(250, 250)
                     .centerCrop()
                     .into(holder.message_photo);

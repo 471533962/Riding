@@ -82,7 +82,6 @@ public class MessageHandler extends AVIMMessageHandler{
         daoUtils.insertChatMessage(DataTools.getChatMessageFromAVIMTextMessage(message, false));
 
         Conversation insertConversation = DataTools.getConversationFromAVIMConversation(conversation);
-        insertConversation.setUnReadNum(daoUtils.getUnreadChatMessageNumber(conversation.getConversationId()));
         daoUtils.insertConversation(insertConversation);
 
         JSONObject jsonObject = JSON.parseObject(message.getText());
