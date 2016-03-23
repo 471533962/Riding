@@ -18,6 +18,7 @@ import com.bingo.riding.adapter.PersonalMessageAdapter;
 import com.bingo.riding.dao.ChatMessage;
 import com.bingo.riding.dao.Conversation;
 import com.bingo.riding.event.ConversationItemClickEvent;
+import com.bingo.riding.event.ImTypeMessageEvent;
 import com.bingo.riding.utils.Constants;
 import com.bingo.riding.utils.DaoUtils;
 import com.bingo.riding.utils.DividerItemDecoration;
@@ -89,5 +90,12 @@ public class MessageFragment extends Fragment {
         Intent intent = new Intent(getActivity(), ChatActivity.class);
         intent.putExtra(Constants.MEMBER_ID, event.memberId);
         startActivity(intent);
+    }
+
+    public void onEvent(ImTypeMessageEvent imTypeMessageEvent){
+        List<Conversation> list = daoUtils.getAllConversations();
+        conversationList.clear();
+        conversationList.addAll(list);
+        conversationListAdapter.notifyDataSetChanged();
     }
 }

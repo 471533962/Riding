@@ -47,6 +47,7 @@ public class NewFriendViewHolder extends RecyclerView.ViewHolder {
     public void bindData(final AddFriendsRequest addFriendsRequest){
         this.addFriendsRequest = addFriendsRequest;
 
+        nameView.setText(addFriendsRequest.getFromUser().getString("nikeName"));
         AVFile userPhoto = addFriendsRequest.getFromUser().getAVFile("userPhoto");
         if (userPhoto != null){
             Glide.with(mContext.getApplicationContext())
@@ -100,15 +101,6 @@ public class NewFriendViewHolder extends RecyclerView.ViewHolder {
                         }
                     }
                 });
-
-//                avObject.put("status", AddFriendsRequest.STATUS_ACCEPT);
-//                avObject.setFetchWhenSave(true);
-//                avObject.saveInBackground(new SaveCallback() {
-//                    @Override
-//                    public void done(AVException e) {
-//
-//                    }
-//                });
             }
         });
     }
