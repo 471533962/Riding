@@ -1,0 +1,27 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- These settings headers are only used on tablets. -->
+    <PreferenceCategory android:title="消息提醒"
+        android:icon="@drawable/ic_info_black_24dp">
+
+        <SwitchPreference
+            android:key="pref_ring"
+            android:title="提示声"
+            android:summary="默认开启状态，当您收到消息时，设备将有提示声。关闭则没有提示声"
+            android:defaultValue="true"/>
+
+        <RingtonePreference
+            android:dependency="pref_ring"
+            android:key="notifications_new_message_ringtone"
+            android:title="提示铃声"
+            android:ringtoneType="notification"
+            android:defaultValue="content://settings/system/notification_sound" />
+
+        <SwitchPreference
+            android:key="pref_vibrate"
+            android:title="震动"
+            android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
