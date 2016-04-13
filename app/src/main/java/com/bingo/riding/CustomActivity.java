@@ -3,6 +3,7 @@ package com.bingo.riding;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,8 @@ import com.bingo.riding.adapter.ViewPagerAdapter;
 import com.bingo.riding.fragment.LoginFragment;
 import com.bingo.riding.fragment.RegisterFragment;
 import com.mingle.widget.ShapeLoadingDialog;
+
+import java.io.File;
 
 /**
  * Created by bingo on 15/10/8.
@@ -38,6 +41,14 @@ public class CustomActivity extends AppCompatActivity {
         }
 
         initView();
+
+        init();
+    }
+
+    private void init(){
+        String directoryPath = Environment.getExternalStorageDirectory() + File.separator + "Riding" + File.separator + "bingo.png";
+        File file = new File(directoryPath);
+        file.mkdirs();
     }
 
     private void initView(){

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.bingo.riding">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.bingo.riding">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
 
     <application
         android:name=".BaseApplication"
@@ -22,20 +23,20 @@
         <activity
             android:name=".MainActivity"
             android:launchMode="singleInstance"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".CustomActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".RegisterActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".SplashActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
@@ -43,49 +44,49 @@
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.bingo.riding.MainActivity" />
+                android:value="com.bingo.riding.MainActivity"/>
         </activity>
         <activity
             android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
-            android:configChanges="orientation|screenSize" />
+            android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".PublishActivity"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ImageGalleryActivity" />
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".ImageGalleryActivity"/>
         <activity
             android:name=".PersonalInfoActivity"
             android:label="个人信息"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".ModifyActivity"
-            android:parentActivityName=".PersonalInfoActivity" />
+            android:parentActivityName=".PersonalInfoActivity"/>
         <activity
             android:name=".MessageMangerActivity"
             android:launchMode="singleInstance"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".MessageDetailActivity"
             android:label="@string/title_activity_message_detail"
             android:launchMode="singleInstance"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".ChatActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:parentActivityName=".MainActivity"
             android:taskAffinity=""
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".PersonalIndexActivity"
             android:launchMode="singleInstance"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <meta-data
             android:name="android.app.default_searchable"
-            android:value="com.bingo.riding.SearchFriendsActivity" />
+            android:value="com.bingo.riding.SearchFriendsActivity"/>
 
         <activity
             android:name=".SearchFriendsActivity"
@@ -93,53 +94,52 @@
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
+                <action android:name="android.intent.action.SEARCH"/>
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
             </intent-filter>
 
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/friends_searchable" />
+                android:resource="@xml/friends_searchable"/>
         </activity>
         <activity
             android:name=".NewFriendsActivity"
             android:launchMode="singleInstance"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".FeedbackActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".FeedbackActivity"
             android:launchMode="singleInstance"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <!-- 实时通信模块、推送（若使用该功能，需添加以下声明）START -->
         <service
             android:name="com.avos.avoscloud.PushService"
-            android:exported="true" />
+            android:exported="true"/>
 
         <receiver android:name="com.avos.avoscloud.AVBroadcastReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.USER_PRESENT" />
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.USER_PRESENT"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
         </receiver>
         <!-- 实时通信模块、推送 END -->
 
         <service
             android:name=".service.PublishMessageService"
-            android:enabled="true" />
-        <service
-            android:name=".service.LocationService"
-            android:enabled="false"
-            android:exported="false" />
-        <service android:name="com.amap.api.location.APSService" />
+            android:enabled="true"/>
+        <service android:name="com.amap.api.location.APSService"/>
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="452d528b73a6025f5848ffc29af41e8c" />
+            android:value="8820f9b563ece1863084331a24f8e98d"/>
+
+        <activity android:name=".RidingRecordActivity">
+        </activity>
     </application>
 
 </manifest>

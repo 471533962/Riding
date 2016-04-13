@@ -1,19 +1,13 @@
 package com.bingo.riding;
 
 import android.app.Application;
+import android.os.Process;
 
 import com.avos.avoscloud.AVCloud;
 import com.avos.avoscloud.AVInstallation;
 import com.avos.avoscloud.AVOSCloud;
-import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.PushService;
-import com.avos.avoscloud.im.v2.AVIMClient;
-import com.avos.avoscloud.im.v2.AVIMException;
-import com.avos.avoscloud.im.v2.AVIMMessage;
 import com.avos.avoscloud.im.v2.AVIMMessageManager;
-import com.avos.avoscloud.im.v2.AVIMTypedMessage;
-import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
-import com.bingo.riding.utils.AVImClientManager;
 import com.bingo.riding.utils.MessageHandler;
 import com.facebook.stetho.Stetho;
 
@@ -50,5 +44,20 @@ public class BaseApplication extends Application {
                         .enableWebKitInspector(
                                 Stetho.defaultInspectorModulesProvider(this))
                         .build());
+
+
+        //添加崩溃反馈
+//        Thread.setDefaultUncaughtExceptionHandler(new MyUncaughtExceptionHandler());
+    }
+
+    class MyUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler{
+        @Override
+        public void uncaughtException(Thread thread, Throwable ex) {
+            ex.printStackTrace();
+            //do some thing
+
+            Process.killProcess(Process.myPid());
+            System.exit(1);
+        }
     }
 }

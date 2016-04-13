@@ -18,15 +18,13 @@ import com.bingo.riding.CustomActivity;
 import com.bingo.riding.MessageMangerActivity;
 import com.bingo.riding.PersonalInfoActivity;
 import com.bingo.riding.R;
+import com.bingo.riding.RidingRecordActivity;
 import com.bingo.riding.SettingsActivity;
-import com.bingo.riding.bean.Message;
 import com.bingo.riding.utils.DaoUtils;
 import com.bingo.riding.utils.Utils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.signature.StringSignature;
-
-import me.nereo.multi_image_selector.bean.Image;
 
 /**
  * Created by bingo on 15/10/9.
@@ -94,6 +92,7 @@ public class MeFragment extends Fragment implements View.OnClickListener{
                 Utils.startActivity(getActivity(), SettingsActivity.class);
                 break;
             case R.id.riding_data:
+                Utils.startActivity(getActivity(), RidingRecordActivity.class);
                 break;
             case R.id.my_message:
                 Utils.startActivity(getActivity(), MessageMangerActivity.class);

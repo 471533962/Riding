@@ -16,6 +16,7 @@ import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.bingo.riding.bean.AddFriendsRequest;
 import com.bingo.riding.bean.Discussion;
 import com.bingo.riding.bean.Message;
+import com.bingo.riding.bean.RidingRecordBean;
 import com.bingo.riding.dao.ChatMessage;
 import com.bingo.riding.dao.Conversation;
 import com.bingo.riding.dao.User;
@@ -235,5 +236,17 @@ public class DataTools {
         addFriendsRequest.setAvObject(avObject);
 
         return addFriendsRequest;
+    }
+
+    public static RidingRecordBean getRidingRecordBeanFromAVObject(AVObject avObject){
+        RidingRecordBean ridingRecordBean = new RidingRecordBean();
+
+        ridingRecordBean.setAverageSpeed(avObject.getDouble("averageSpeed"));
+        ridingRecordBean.setRidingDistance(avObject.getDouble("ridingDistance"));
+        ridingRecordBean.setRidingTime(avObject.getLong("ridingTime"));
+
+        ridingRecordBean.setScreenShot(avObject.getAVFile("screenShot"));
+
+        return ridingRecordBean;
     }
 }

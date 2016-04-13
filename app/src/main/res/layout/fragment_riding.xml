@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:keepScreenOn="true">
 
     <com.amap.api.maps.MapView
         android:id="@+id/bmapView"
@@ -9,31 +10,123 @@
         android:layout_height="match_parent"
         android:clickable="true" />
 
-    <RelativeLayout
-        android:id="@+id/search_layout"
-        android:background="@color/white"
+    <LinearLayout
+        android:id="@+id/riding_infor_layout"
+        android:background="#94000000"
+        android:weightSum="4"
         android:visibility="gone"
+        android:orientation="horizontal"
         android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/search_place_btn"
-            android:text="搜索"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
-        <EditText
-            android:id="@+id/search_edit_text"
-            android:background="@drawable/text_search"
-            android:layout_toLeftOf="@+id/search_place_btn"
-            android:hint="请输入导航目的地"
-            android:layout_centerVertical="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_alignParentLeft="true"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
 
-    </RelativeLayout>
+            <TextView
+                android:text="距离"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/riding_distance"
+                android:text="00.00"
+                android:textColor="#aea744"
+                android:textSize="18sp"
+                android:typeface="monospace"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:text="公里"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_alignParentLeft="true"
+            android:orientation="vertical"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="时间"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/riding_time"
+                android:text="00:00:00"
+                android:textColor="#aea744"
+                android:textSize="18sp"
+                android:typeface="monospace"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:text="时:分:秒"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_alignParentLeft="true"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="平均速度"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/average_speed"
+                android:text="00.00"
+                android:textColor="#aea744"
+                android:textSize="18sp"
+                android:typeface="monospace"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:text="公里/小时"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>
