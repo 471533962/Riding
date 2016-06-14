@@ -94,7 +94,7 @@ public class ChatMessageListAdapter extends RecyclerView.Adapter<ChatMessageList
             if (userPicHash.get(SELF_USER_PIC) != null){
                 Glide.with(mContext.getApplicationContext())
                         .load(userPicHash.get(SELF_USER_PIC))
-                        .signature(new StringSignature(userPicHash.get(OTHER_USER_PIC)))
+                        .signature(new StringSignature(userPicHash.get(SELF_USER_PIC)))
                         .diskCacheStrategy(DiskCacheStrategy.RESULT)
                         .placeholder(R.drawable.placeholder)
                         .error(R.drawable.loaderror)
